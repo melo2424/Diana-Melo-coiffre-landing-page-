@@ -7,7 +7,7 @@ Público: mujeres en Colombia que buscan una colorista experta y de confianza. S
 
 **No es una tienda.** Los productos Olaplex se muestran como vitrina: sin precios, carrito ni compra. El agendamiento sale por WhatsApp (o Instagram mientras no haya número).
 
-Diseño: lee **[DESIGN.md](DESIGN.md)** antes de tocar cualquier cosa visual. Dirección «sala oscura» (`dark-room`), Bodoni Moda + Jost, paleta negro/dorado/marfil, radios 0, sin sombras ni gradientes.
+Diseño: lee **[DESIGN.md](DESIGN.md)** antes de tocar cualquier cosa visual. Dirección «sala oscura» (`dark-room`), Bodoni Moda + Jost, paleta negro/dorado/marfil, botones en píldora (`<Cta>`), muestras redondas; ver §0b de DESIGN.md.
 
 ## Stack
 

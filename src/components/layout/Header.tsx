@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScro
 import { useEffect, useRef, useState } from "react";
 import { bookingHref, nav, site } from "@/data/site";
 import { LogoInline } from "@/components/brand/Logo";
+import { Cta } from "@/components/ui/Cta";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -76,14 +77,9 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <a
-            href={bookingHref}
-            target="_blank"
-            rel="noopener"
-            className="inline-flex h-11 items-center bg-accent px-4 text-[0.9375rem] font-medium text-on-accent transition-colors duration-[var(--dur-fast)] hover:bg-gold-light active:translate-y-px sm:px-5"
-          >
+          <Cta href={bookingHref} size="sm" icon={null}>
             Agendar<span className="hidden sm:inline">&nbsp;cita</span>
-          </a>
+          </Cta>
           <button
             ref={toggleRef}
             type="button"
@@ -127,14 +123,9 @@ export function Header() {
                   </motion.li>
                 ))}
               </ul>
-              <a
-                href={bookingHref}
-                target="_blank"
-                rel="noopener"
-                className="inline-flex h-14 w-full items-center justify-center bg-accent text-body font-medium text-on-accent"
-              >
+              <Cta href={bookingHref} size="lg" className="w-full justify-between">
                 Agendar cita
-              </a>
+              </Cta>
             </nav>
           </motion.div>
         ) : null}

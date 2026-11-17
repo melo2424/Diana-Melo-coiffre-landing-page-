@@ -12,6 +12,7 @@ import {
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { bookingHref } from "@/data/site";
 import { Monogram, Tagline, Wordmark } from "@/components/brand/Logo";
+import { Cta } from "@/components/ui/Cta";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -155,23 +156,12 @@ export function Hero() {
                 Colorista en Villavicencio: balayage, rubios y cobrizos hechos a la medida de tu cabello.
               </p>
               <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-                <a
-                  href={bookingHref}
-                  target="_blank"
-                  rel="noopener"
-                  className="group inline-flex h-14 items-center gap-3 bg-accent px-7 text-body font-medium text-on-accent transition-colors duration-[var(--dur-fast)] hover:bg-gold-light active:translate-y-px"
-                >
+                <Cta href={bookingHref} size="lg">
                   Agendar cita
-                  <span aria-hidden className="inline-block transition-transform duration-[var(--dur-base)] group-hover:translate-x-1">
-                    →
-                  </span>
-                </a>
-                <a
-                  href="#trabajos"
-                  className="text-body text-text underline decoration-gold/70 decoration-2 underline-offset-[7px] transition-colors hover:text-gold-light hover:decoration-gold"
-                >
+                </Cta>
+                <Cta href="#trabajos" variant="ghost" size="lg">
                   Ver los trabajos
-                </a>
+                </Cta>
               </div>
             </motion.div>
           </motion.div>

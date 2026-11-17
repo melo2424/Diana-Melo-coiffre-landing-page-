@@ -24,6 +24,20 @@ Ficha: `.taste-skill/direction.json` (dirección `uneven-photographs`, semilla `
 
 ---
 
+## 0b. Ajustes del 17-11-2026 (pedidos por la clienta)
+
+Sustituyen lo que contradigan en §5, §6, §8 y §10.
+
+- **Botones**: ya no son rectángulos. Todos usan `<Cta>` ([src/components/ui/Cta.tsx](src/components/ui/Cta.tsx), estilos `.cta` en globals.css): píldora dorada con un destello que la cruza cada 6 s, relleno de luz al pasar y una flecha que atraviesa su círculo. `variant="ghost"` es la secundaria (hilo dorado que se llena). Flechas de navegación: `.round-btn`. Botón flotante de WhatsApp en dorado (`WhatsAppButton`), en toda la página.
+- **Muestras de tono**: gotas redondas (`.swatch`), no cuadrados.
+- **Radios**: botones, chips y muestras redondos; fotos de la galería con 20px. Las fotos grandes del resto de secciones siguen rectas.
+- **Sombras**: solo en lo que flota (botón al pasar, botón de WhatsApp, polaroids del álbum).
+- **Trabajos**: se retiró el muro «Todo el portafolio, por familia». La rueda de tonos es la única galería: sin tono elegido muestra todos los trabajos (8 + «ver los restantes»); con tonos, agrupa «En tu mezcla» y «Tonos vecinos» en una cuadrícula ordenada.
+- **Diana**: en primera persona («Hola, soy Diana Melo»), álbum de polaroids arrastrables con sus fotos de eventos, carta firmada y tres compromisos con iconos redondos. El texto está escrito en su voz: **POR CONFIRMAR con Diana**.
+- **Footer**: negro, logotipo animado en blanco y botón de WhatsApp.
+
+---
+
 ## 1. Dirección de arte
 
 ### Se propusieron dos

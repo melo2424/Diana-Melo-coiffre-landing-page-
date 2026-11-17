@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { families, tones, type SiteImage } from "@/data/images";
 import { bookingLink } from "@/data/site";
 import { Picture } from "@/components/ui/Picture";
+import { ArrowSide, Cta } from "@/components/ui/Cta";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 export const familyLabel = (id: string) => families.find((f) => f.id === id)?.label ?? id;
@@ -99,7 +100,7 @@ export function Lightbox({
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="h-11 text-body text-text underline decoration-gold/70 decoration-2 underline-offset-[7px] hover:text-gold-light"
+            className="inline-flex h-11 items-center rounded-full px-5 text-body text-text ring-1 ring-gold/45 transition-colors hover:bg-gold hover:text-ink"
           >
             Cerrar
           </button>
@@ -115,32 +116,27 @@ export function Lightbox({
               transition={{ duration: 0.3, ease }}
             >
               <p className="flex items-center gap-3 font-display text-title text-text">
-                <span aria-hidden className="inline-block size-[0.5em]" style={{ background: tones[image.tone ?? ""] }} />
+                <span aria-hidden className="swatch size-[0.5em]" style={{ background: tones[image.tone ?? ""] }} />
                 {image.tone}
               </p>
               <p className="mt-4 text-small text-muted">{familyLabel(image.category)}</p>
               <p className="mt-5 max-w-[38ch] text-body text-text">{image.alt}.</p>
             </motion.div>
           </AnimatePresence>
-          <a
-            href={bookingLink(`Hola Diana, vi tu trabajo en tono ${image.tone} y quiero un color así.`)}
-            target="_blank"
-            rel="noopener"
-            className="mt-8 inline-flex h-12 items-center gap-3 bg-accent px-6 text-body font-medium text-on-accent transition-colors hover:bg-gold-light"
-          >
-            Quiero este tono <span aria-hidden>→</span>
-          </a>
+          <Cta href={bookingLink(`Hola Diana, vi tu trabajo en tono ${image.tone} y quiero un color así.`)} className="mt-8">
+            Quiero este tono
+          </Cta>
         </div>
 
         <div className="flex items-center justify-between text-body">
-          <button type="button" onClick={() => go(-1)} className="h-11 px-1 text-text hover:text-gold-light">
-            ← Anterior
+          <button type="button" onClick={() => go(-1)} aria-label="Anterior" className="round-btn">
+            <ArrowSide dir={-1} className="size-4" />
           </button>
           <span className="tabular text-small text-muted">
             {index + 1} de {items.length}
           </span>
-          <button type="button" onClick={() => go(1)} className="h-11 px-1 text-text hover:text-gold-light">
-            Siguiente →
+          <button type="button" onClick={() => go(1)} aria-label="Siguiente" className="round-btn">
+            <ArrowSide className="size-4" />
           </button>
         </div>
       </motion.div>

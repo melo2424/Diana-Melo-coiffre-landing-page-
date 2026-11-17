@@ -9,11 +9,12 @@ import {
   useTransform,
   type Variants,
 } from "framer-motion";
-import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent, type RefObject } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { portfolio, tones, type SiteImage } from "@/data/images";
 import { bookingLink } from "@/data/site";
 import { Picture } from "@/components/ui/Picture";
 import { Reveal } from "@/components/motion/Reveal";
+import { Cta } from "@/components/ui/Cta";
 import { Lightbox, familyLabel } from "./Lightbox";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -107,12 +108,11 @@ export function ColorLab() {
   const reduce = useReducedMotion();
   const wide = useWide();
   const VB = wide ? VIEW.wide : VIEW.phone;
-  const [picked, setPicked] = useState<Tone[]>(["Miel"]);
+  const [picked, setPicked] = useState<Tone[]>([]);
   const [hover, setHover] = useState<Tone | null>(null);
   const [open, setOpen] = useState<number | null>(null);
   const lastTrigger = useRef<HTMLButtonElement | null>(null);
   const labRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLUListElement>(null);
 
   const counts = useMemo(() => {
     const m = new Map<string, number>();
@@ -121,7 +121,7 @@ export function ColorLab() {
   }, []);
 
   // La aguja dorada gira hasta el último tono elegido, por el camino más corto.
-  const [angle, setAngle] = useState(RING.indexOf("Miel") * STEP);
+  const [angle, setAngle] = useState(0);
   const toggle = (t: Tone) => {
     const next = picked.includes(t) ? picked.filter((x) => x !== t) : [...picked, t].slice(-MAX);
     setPicked(next);
@@ -137,19 +137,14 @@ export function ColorLab() {
     [picked],
   );
   const items: Item[] = useMemo(() => {
+    if (!picked.length) return portfolio.map((image) => ({ image, kind: "match" as const }));
     const byTone = (list: Tone[]) => list.flatMap((t) => portfolio.filter((i) => i.tone === t));
     return [
       ...byTone(picked).map((image) => ({ image, kind: "match" as const })),
       ...byTone(near).map((image) => ({ image, kind: "vecino" as const })),
     ];
   }, [picked, near]);
-  const matches = items.filter((i) => i.kind === "match").length;
   const mix = mixOf(picked);
-
-  // Al cambiar la mezcla, la tira vuelve al principio.
-  useEffect(() => {
-    trackRef.current?.scrollTo({ left: 0, behavior: reduce ? "auto" : "smooth" });
-  }, [picked, reduce]);
 
   const needle = useSpring(angle, { stiffness: 70, damping: 16 });
   useEffect(() => {
@@ -296,12 +291,14 @@ export function ColorLab() {
                   <button
                     type="button"
                     onClick={() => toggle(t)}
-                    className="flex h-11 items-center gap-2.5 bg-graphite pl-2 pr-3 text-small text-text transition-colors hover:bg-onyx"
+                    className="group flex h-11 items-center gap-2.5 rounded-full bg-graphite pl-1.5 pr-4 text-small text-text ring-1 ring-white/5 transition-[background-color,box-shadow] duration-300 hover:bg-onyx hover:ring-gold/50"
                     aria-label={`Quitar ${t}`}
                   >
-                    <span aria-hidden className="size-6" style={{ background: tones[t] }} />
+                    <span aria-hidden className="swatch size-8" style={{ background: tones[t] }} />
                     {t}
-                    <span aria-hidden className="text-muted">×</span>
+                    <span aria-hidden className="text-muted transition-transform duration-300 group-hover:rotate-90 group-hover:text-gold-light">
+                      ×
+                    </span>
                   </button>
                 </motion.li>
               ))}
@@ -314,25 +311,25 @@ export function ColorLab() {
               : "Sin tonos elegidos. Empieza por el que más se parezca al color que quieres."}
           </p>
 
-          <a
-            href={bookingLink(wishMsg)}
-            target="_blank"
-            rel="noopener"
-            className="group mt-6 inline-flex h-12 items-center gap-3 bg-accent px-6 text-body font-medium text-on-accent transition-colors duration-[var(--dur-fast)] hover:bg-gold-light active:translate-y-px"
-          >
-            {picked.length ? "Quiero esta mezcla" : "Agendar mi cita"}
-            <span aria-hidden className="transition-transform duration-[var(--dur-base)] group-hover:translate-x-1">
-              →
-            </span>
-          </a>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <Cta href={bookingLink(wishMsg)}>{picked.length ? "Quiero esta mezcla" : "Agendar mi cita"}</Cta>
+            {picked.length ? (
+              <button
+                type="button"
+                onClick={() => setPicked([])}
+                className="h-12 rounded-full px-5 text-small text-muted ring-1 ring-graphite transition-colors hover:text-text hover:ring-gold/50"
+              >
+                Ver todos
+              </button>
+            ) : null}
+          </div>
         </Reveal>
       </div>
 
-      {/* ---------------- la tira de trabajos ---------------- */}
-      <Strip
+      {/* ---------------- la galería ---------------- */}
+      <Gallery
         items={items}
-        matches={matches}
-        trackRef={trackRef}
+        picked={picked}
         onOpen={(i, el) => {
           lastTrigger.current = el;
           setOpen(i);
@@ -447,172 +444,151 @@ function Segment({
   );
 }
 
-/* ------------------------------------------------------------------ la tira */
+/* ------------------------------------------------------------------ la galería */
 
-function Strip({
+const PAGE = 8;
+
+function Gallery({
   items,
-  matches,
-  trackRef,
+  picked,
   onOpen,
 }: {
   items: Item[];
-  matches: number;
-  trackRef: RefObject<HTMLUListElement | null>;
+  picked: Tone[];
   onOpen: (index: number, el: HTMLButtonElement) => void;
 }) {
-  const reduce = useReducedMotion();
-  const { scrollXProgress } = useScroll({ container: trackRef });
-  const bar = useSpring(scrollXProgress, { stiffness: 120, damping: 24 });
-  const near = items.length - matches;
+  const [expanded, setExpanded] = useState(false);
+  const all = !picked.length;
+  // Al cambiar la mezcla se vuelve a la vista corta.
+  const key = picked.join("+");
+  const [lastKey, setLastKey] = useState(key);
+  if (key !== lastKey) {
+    setLastKey(key);
+    setExpanded(false);
+  }
 
-  // Arrastrar con el ratón en escritorio (el dedo y el trackpad ya desplazan solos).
-  const drag = useRef<{ x: number; left: number; moved: boolean } | null>(null);
-  const [dragging, setDragging] = useState(false);
-  const onDown = (e: PointerEvent<HTMLUListElement>) => {
-    if (e.pointerType !== "mouse" || !trackRef.current) return;
-    drag.current = { x: e.clientX, left: trackRef.current.scrollLeft, moved: false };
-  };
-  const onMove = (e: PointerEvent<HTMLUListElement>) => {
-    const d = drag.current;
-    if (!d || !trackRef.current) return;
-    const dx = e.clientX - d.x;
-    if (!d.moved && Math.abs(dx) > 6) {
-      d.moved = true;
-      setDragging(true);
-    }
-    if (d.moved) trackRef.current.scrollLeft = d.left - dx;
-  };
-  const onUp = () => {
-    setTimeout(() => {
-      drag.current = null;
-      setDragging(false);
-    }, 0);
-  };
-
-  const page = (dir: number) => {
-    const el = trackRef.current;
-    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: reduce ? "auto" : "smooth" });
-  };
+  const shown = all && !expanded ? items.slice(0, PAGE) : items;
+  const rest = items.length - shown.length;
+  const indexed = shown.map((item, i) => ({ item, i }));
+  const groups = all
+    ? [{ id: "todos", title: null as string | null, list: indexed }]
+    : (["match", "vecino"] as const)
+        .map((kind) => ({
+          id: kind,
+          title: kind === "match" ? `En tu mezcla: ${join(picked)}` : "Tonos vecinos, que combinan con tu elección",
+          list: indexed.filter(({ item }) => item.kind === kind),
+        }))
+        .filter((g) => g.list.length);
+  const matches = items.filter((i) => i.kind === "match").length;
 
   return (
-    <div className="mt-14 md:mt-20">
-      <div className="flex items-end justify-between gap-6">
-        <p className="text-body text-text" aria-live="polite">
-          {items.length ? (
-            <>
-              {matches} {matches === 1 ? "trabajo" : "trabajos"} en tu mezcla
-              {near ? <span className="text-muted"> · {near} en tonos vecinos</span> : null}
-            </>
-          ) : (
-            "Elige un tono en el círculo para ver sus trabajos."
-          )}
-        </p>
-        <div className="hidden gap-2 md:flex">
-          {[-1, 1].map((d) => (
-            <button
-              key={d}
-              type="button"
-              onClick={() => page(d)}
-              aria-label={d < 0 ? "Trabajos anteriores" : "Más trabajos"}
-              className="grid size-12 place-items-center bg-onyx text-body text-text transition-colors hover:bg-graphite hover:text-gold-light"
-            >
-              {d < 0 ? "←" : "→"}
-            </button>
-          ))}
+    <div className="mt-16 md:mt-24">
+      <p className="text-body text-text" aria-live="polite">
+        {all ? (
+          <>
+            Todos los trabajos <span className="text-muted">· {items.length}</span>
+          </>
+        ) : items.length ? (
+          <>
+            {matches} {matches === 1 ? "trabajo" : "trabajos"} en tu mezcla
+            {items.length - matches ? (
+              <span className="text-muted"> · {items.length - matches} en tonos vecinos</span>
+            ) : null}
+          </>
+        ) : (
+          "Aún no hay trabajos en esos tonos. Prueba con uno vecino."
+        )}
+      </p>
+
+      {groups.map((g) => (
+        <div key={g.id} className="mt-8 md:mt-10">
+          {g.title ? (
+            <h4 className="mb-5 font-display text-[1.375rem] leading-tight text-text md:text-[1.625rem]">{g.title}</h4>
+          ) : null}
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-5 lg:grid-cols-4">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {g.list.map(({ item, i }, n) => (
+                <Card key={item.image.id} item={item} order={n} onOpen={(el) => onOpen(i, el)} />
+              ))}
+            </AnimatePresence>
+          </ul>
         </div>
-      </div>
+      ))}
 
-      <ul
-        ref={trackRef}
-        onPointerDown={onDown}
-        onPointerMove={onMove}
-        onPointerUp={onUp}
-        onPointerLeave={onUp}
-        className={`relative -mx-gutter mt-6 flex gap-3 overflow-x-auto px-gutter pb-2 [scrollbar-width:none] md:gap-4 [&::-webkit-scrollbar]:hidden ${
-          dragging ? "cursor-grabbing" : "snap-x snap-mandatory md:cursor-grab"
-        }`}
-        style={{ scrollPaddingInline: "var(--gutter)" }}
-      >
-        <AnimatePresence mode="popLayout" initial={false}>
-          {items.map((item, i) => (
-            <Card
-              key={`${item.kind}-${item.image.id}`}
-              item={item}
-              index={i}
-              trackRef={trackRef}
-              first={item.kind === "vecino" && (i === 0 || items[i - 1].kind === "match")}
-              onOpen={(el) => !drag.current?.moved && onOpen(i, el)}
-            />
-          ))}
-        </AnimatePresence>
-      </ul>
-
-      {/* avance de la tira */}
-      <div aria-hidden className="mt-5 h-px bg-graphite">
-        <motion.div className="h-full origin-left bg-gold" style={{ scaleX: bar }} />
-      </div>
+      {rest > 0 ? (
+        <div className="mt-12 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setExpanded(true)}
+            className="group inline-flex h-12 items-center gap-3 rounded-full pl-6 pr-2 text-body text-text ring-1 ring-gold/45 transition-colors duration-300 hover:bg-gold hover:text-ink"
+          >
+            Ver los {rest} trabajos restantes
+            <span
+              aria-hidden
+              className="grid size-8 place-items-center rounded-full bg-gold/15 text-gold-light transition-transform duration-500 group-hover:rotate-180 group-hover:bg-ink"
+            >
+              +
+            </span>
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
 
-function Card({
-  item,
-  index,
-  trackRef,
-  first,
-  onOpen,
-}: {
-  item: Item;
-  index: number;
-  trackRef: RefObject<HTMLUListElement | null>;
-  first: boolean;
-  onOpen: (el: HTMLButtonElement) => void;
-}) {
+function Card({ item, order, onOpen }: { item: Item; order: number; onOpen: (el: HTMLButtonElement) => void }) {
   const reduce = useReducedMotion();
-  const ref = useRef<HTMLLIElement>(null);
-  // Paralaje horizontal: la foto se desliza dentro de su marco al recorrer la tira.
-  const { scrollXProgress } = useScroll({ container: trackRef, target: ref, axis: "x", offset: ["start end", "end start"] });
-  const x = useTransform(scrollXProgress, [0, 1], reduce ? ["0%", "0%"] : ["-9%", "9%"]);
   const { image } = item;
 
   return (
     <motion.li
-      ref={ref}
       layout={!reduce}
-      initial={reduce ? false : { opacity: 0, x: 90 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.22 } }}
-      transition={{ duration: 0.8, delay: Math.min(index, 8) * 0.06, ease }}
-      className={`w-[68vw] shrink-0 snap-start sm:w-[40vw] md:w-[26vw] lg:w-[19vw] ${first ? "ml-6 md:ml-10" : ""}`}
+      initial={reduce ? false : { opacity: 0, y: 28, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.94, transition: { duration: 0.2 } }}
+      transition={{ duration: 0.7, delay: Math.min(order, 8) * 0.05, ease }}
     >
       <button
         type="button"
-        className="tile group block w-full text-left"
+        className="group block w-full text-left"
         onClick={(e) => onOpen(e.currentTarget)}
         aria-label={`Ver en grande: ${image.alt}`}
-        draggable={false}
       >
         <motion.div
           layoutId={`lab-${image.id}`}
-          className="relative aspect-[3/4] overflow-hidden bg-onyx"
-          initial={reduce ? false : { clipPath: "inset(0 0 0 100%)" }}
-          animate={{ clipPath: "inset(0 0 0 0%)" }}
-          transition={{ duration: 0.9, delay: Math.min(index, 8) * 0.06 + 0.05, ease }}
+          className="relative aspect-[3/4] overflow-hidden rounded-[1.25rem] bg-onyx ring-1 ring-white/5 transition-shadow duration-500 group-hover:ring-gold/50"
         >
-          <motion.div className="absolute inset-y-0 -left-[10%] w-[120%]" style={{ x }}>
-            <Picture image={image} sizes="(min-width: 1024px) 20vw, (min-width: 768px) 27vw, 68vw" objectPosition="50% 30%" className="tile-img pointer-events-none" />
-          </motion.div>
-          {item.kind === "vecino" ? (
-            <span className="absolute left-0 top-0 bg-ink/80 px-2.5 py-1 text-small text-text">Tono vecino</span>
-          ) : null}
-        </motion.div>
-        <span className="mt-3 flex items-baseline justify-between gap-3 text-small">
-          <span className="inline-flex items-center gap-2 text-text">
-            <span aria-hidden className="inline-block size-3" style={{ background: tones[image.tone ?? ""] }} />
-            {image.tone}
+          <div className="h-full w-full transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]">
+            <Picture
+              image={image}
+              sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
+              objectPosition="50% 30%"
+              className="exhibit-img"
+            />
+          </div>
+          {/* velo neutro bajo el pie de foto */}
+          <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/75 to-transparent" />
+          <span className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2 text-small text-pearl">
+            <span className="inline-flex items-center gap-2">
+              <span aria-hidden className="swatch size-3.5" style={{ background: tones[image.tone ?? ""] }} />
+              {image.tone}
+            </span>
+            <span className="hidden text-pearl/70 sm:inline">{familyLabel(image.category)}</span>
           </span>
-          <span className="text-muted">{familyLabel(image.category)}</span>
-        </span>
+          {item.kind === "vecino" ? (
+            <span className="absolute left-3 top-3 rounded-full bg-ink/75 px-3 py-1 text-[0.8125rem] text-text">
+              Tono vecino
+            </span>
+          ) : null}
+          <span
+            aria-hidden
+            className="absolute right-3 top-3 grid size-9 scale-75 place-items-center rounded-full bg-gold text-ink opacity-0 transition-[opacity,transform] duration-500 group-hover:scale-100 group-hover:opacity-100"
+          >
+            <svg viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round">
+              <path d="M8 3.5v9M3.5 8h9" />
+            </svg>
+          </span>
+        </motion.div>
       </button>
     </motion.li>
   );

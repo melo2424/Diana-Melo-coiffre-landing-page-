@@ -6,6 +6,7 @@ import { byId } from "@/data/images";
 import { bookingLink } from "@/data/site";
 import { Picture } from "@/components/ui/Picture";
 import { Reveal } from "@/components/motion/Reveal";
+import { Cta } from "@/components/ui/Cta";
 
 const frames = [
   { id: "olaplex/2026-09-21-ddjgpkgjqmi-1", name: "N.º4P y N.º5P", fact: "Matiz para rubios", lifted: true },
@@ -45,14 +46,13 @@ export function Olaplex() {
               Lo que protege tu cabello en el estudio, y lo que te llevas para cuidarlo en casa. Solo vitrina: Diana te
               dice cuál va con tu tono.
             </p>
-            <a
+            <Cta
               href={bookingLink("Hola Diana, ¿qué productos Olaplex me recomiendas para mi tono?")}
-              target="_blank"
-              rel="noopener"
-              className="mt-6 inline-flex h-11 items-center text-body text-text underline decoration-gold/70 decoration-2 underline-offset-[7px] transition-colors hover:text-gold-light hover:decoration-gold"
+              variant="ghost"
+              className="mt-6"
             >
               Pregúntale por tu rutina
-            </a>
+            </Cta>
           </Reveal>
           <Reveal order={2} className="mt-10 hidden lg:block">
             <p className="max-w-[28ch] text-[0.9375rem] text-muted">

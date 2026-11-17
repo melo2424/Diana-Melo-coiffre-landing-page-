@@ -4,9 +4,9 @@ export const site = {
   shortName: "Diana Melo",
   role: "Colorista y estilista",
   instagram: { handle: "@dianamelocolorlab", url: "https://www.instagram.com/dianamelocolorlab/" },
-  // POR CONFIRMAR: número de WhatsApp de agendamiento, formato internacional sin + (p. ej. "573001234567").
-  // Mientras esté vacío, todos los botones abren un mensaje directo de Instagram.
-  whatsapp: { number: "" },
+  // WhatsApp de agendamiento, formato internacional sin + (57 = Colombia).
+  // Si se deja vacío, todos los botones abren un mensaje directo de Instagram.
+  whatsapp: { number: "573152593815" },
   // POR CONFIRMAR: ciudad deducida de las fotos de eventos (Hotel Estelar Villavicencio, Cluster Moda Orinoquía).
   city: "Villavicencio, Meta",
 } as const;

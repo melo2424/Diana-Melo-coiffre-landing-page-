@@ -1,6 +1,8 @@
 import { byId } from "@/data/images";
 import { bookingChannel, bookingHref, site } from "@/data/site";
 import { Picture } from "@/components/ui/Picture";
+import { Cta } from "@/components/ui/Cta";
+import { WhatsAppIcon } from "@/components/layout/WhatsAppButton";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitReveal } from "@/components/motion/SplitReveal";
 
@@ -20,7 +22,7 @@ export function Contact() {
 
         <div className="flex gap-6 md:col-span-6 md:col-start-7 md:gap-8 lg:col-span-5 lg:col-start-8">
           <Reveal order={2} className="shrink-0">
-            <div className="size-24 overflow-hidden bg-onyx md:size-40">
+            <div className="size-24 overflow-hidden rounded-full bg-onyx ring-1 ring-gold/40 ring-offset-4 ring-offset-ink md:size-40">
               <Picture
                 image={byId("shooting/shooting-03-2023-12-04-video-cover")}
                 sizes="160px"
@@ -30,29 +32,16 @@ export function Contact() {
           </Reveal>
           <Reveal order={3} className="min-w-0">
             <p className="text-body font-medium text-text">¿Lista para tu color?</p>
-            <ul className="mt-5 space-y-3 text-body">
+            <ul className="mt-5 flex flex-col items-start gap-3 text-body">
               <li>
-                <a
-                  href={bookingHref}
-                  target="_blank"
-                  rel="noopener"
-                  className="group inline-flex h-12 items-center gap-3 bg-accent px-6 font-medium text-on-accent transition-colors hover:bg-gold-light active:translate-y-px"
-                >
+                <Cta href={bookingHref} icon={bookingChannel === "WhatsApp" ? <WhatsAppIcon /> : undefined}>
                   Escribir por {bookingChannel}
-                  <span aria-hidden className="transition-transform duration-[var(--dur-base)] group-hover:translate-x-1">
-                    →
-                  </span>
-                </a>
+                </Cta>
               </li>
               <li>
-                <a
-                  href={site.instagram.url}
-                  target="_blank"
-                  rel="noopener"
-                  className="text-text underline decoration-gold/70 decoration-2 underline-offset-[7px] transition-colors hover:text-gold-light hover:decoration-gold"
-                >
+                <Cta href={site.instagram.url} variant="ghost">
                   Ver más en Instagram
-                </a>
+                </Cta>
               </li>
             </ul>
             <p className="mt-6 text-small text-muted">{site.city}. Solo con cita previa.</p>
