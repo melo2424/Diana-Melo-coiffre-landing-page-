@@ -1,73 +1,57 @@
-import { nav, site } from "@/data/site";
+import { byId } from "@/data/images";
+import { bookingHref, nav, site } from "@/data/site";
+import { Picture } from "@/components/ui/Picture";
+import { Tagline, Wordmark } from "@/components/brand/Logo";
 
-/**
- * Footer provisional (Prompt 4 lo termina): invierte fondo y tinta,
- * cuatro columnas arriba y el nombre a todo el ancho abajo.
- */
 async function currentYear() {
   "use cache"; // se fija al compilar: compatible con cacheComponents
   return new Date().getFullYear();
 }
 
+/** El footer es la última foto: el nombre corre a todo el ancho sobre ella. */
 export async function Footer() {
   const year = await currentYear();
   return (
-    <footer className="bg-ivory text-ink">
-      <div className="grid min-h-[80svh] grid-rows-[auto_1fr_auto] px-gutter pb-6 pt-14 md:pt-16">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 text-[0.9375rem] md:grid-cols-12">
-          <div className="md:col-span-3">
-            <p className="text-ink">Estudio</p>
-            <p className="text-stone-deep">{site.address.line1}</p>
-            <p className="text-stone-deep">{site.address.city}</p>
-          </div>
-          <div className="md:col-span-3">
-            <p className="text-ink">Secciones</p>
-            <ul>
-              {nav.map((n) => (
-                <li key={n.href}>
-                  <a className="text-stone-deep transition-colors hover:text-ink" href={n.href}>
-                    {n.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="md:col-span-3">
-            <p className="text-ink">Redes</p>
-            <a
-              className="text-stone-deep transition-colors hover:text-ink"
-              href={site.instagram.url}
-              target="_blank"
-              rel="noopener"
-            >
-              Instagram {site.instagram.handle}
-            </a>
-          </div>
-          <div className="md:col-span-3">
-            <p className="text-ink">Horario</p>
-            <ul className="tabular">
-              {site.hours.map((h) => (
-                <li key={h.days} className="text-stone-deep">
-                  {h.days}: {h.time}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+    <footer className="relative isolate flex min-h-[88svh] flex-col justify-between overflow-hidden text-ivory md:min-h-[100svh]">
+      <div className="absolute inset-0 -z-10">
+        <Picture
+          image={byId("shooting/shooting-12-2024-08-14")}
+          sizes="100vw"
+          objectPosition="50% 36%"
+          className="brightness-[0.55]"
+        />
+      </div>
 
-        <div aria-hidden />
-
-        <div>
-          <p
-            aria-hidden
-            className="whitespace-nowrap font-display text-[19.4vw] md:text-[20.2vw] leading-[0.8] tracking-[-0.045em] text-ink"
-          >
-            Diana Melo
-          </p>
-          <p className="mt-5 text-small text-stone-deep">
-            © {year} {site.name}. Colorimetría, corte, peinado y maquillaje.
-          </p>
+      <div className="flex flex-col gap-10 px-gutter pt-8 sm:flex-row sm:justify-between">
+        <nav aria-label="Pie de página">
+          <ul className="space-y-1 text-body">
+            {nav.map((n) => (
+              <li key={n.href}>
+                <a href={n.href} className="hover:text-gold-light">
+                  {n.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="text-body sm:text-right">
+          <a href={bookingHref} target="_blank" rel="noopener" className="block hover:text-gold-light">
+            Agendar cita
+          </a>
+          <a href={site.instagram.url} target="_blank" rel="noopener" className="block hover:text-gold-light">
+            Instagram {site.instagram.handle}
+          </a>
+          <p>{site.city}</p>
         </div>
+      </div>
+
+      <div className="px-gutter pb-6">
+        <p className="sr-only">{site.name}</p>
+        <Wordmark play="inView" tone="ivory" className="w-full" />
+        <Tagline play="inView" delay={0.8} className="mt-[1.6vw] w-[38%] max-w-[40rem]" />
+        <p className="mt-8 text-small">
+          © {year} {site.name}. Colorimetría, corte, peinado y maquillaje.
+        </p>
       </div>
     </footer>
   );

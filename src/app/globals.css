@@ -14,8 +14,8 @@
   --gold: #c6a15b; /* acento: acción principal y un detalle por pantalla */
   --gold-light: #e7d3a1; /* hover del acento, texto dorado grande */
   --gold-deep: #8f6e35; /* dorado sobre marfil (solo ≥24px o decorativo) */
-  --ivory: #faf7f1; /* fondo claro: footer y tarjeta de visita */
-  --pearl: #efeae1; /* tinta de lectura sobre oscuro (16.4:1) */
+  --ivory: #efeeeb; /* fondo claro: footer y tarjeta de visita */
+  --pearl: #ecebe7; /* tinta de lectura sobre oscuro (16.4:1) */
   --stone: #8c867d; /* texto secundario sobre oscuro (5.4:1) */
   --stone-deep: #6b665e; /* texto secundario sobre marfil (5.3:1) — añadido para AA */
   --white: #ffffff;
@@ -31,12 +31,12 @@
   --on-accent: var(--ink);
 
   /* Tipo (cinco pasos) */
-  --fs-monument: clamp(3.5rem, 12.4vw, 14.5rem); /* el nombre, de margen a margen */
-  --fs-title: clamp(2.25rem, 5.2vw, 4.75rem); /* h2 de sección */
+  --fs-monument: clamp(4.75rem, 13vw, 15rem); /* el nombre: hero y footer */
+  --fs-title: clamp(2.5rem, 5.6vw, 5.5rem); /* h2 de sección */
   --fs-statement: clamp(1.5rem, 2.5vw, 2.25rem); /* frases, ≤36px */
 
   /* Marco */
-  --gutter: clamp(1rem, 2.6vw, 2.25rem); /* 16px móvil → 36px escritorio */
+  --gutter: clamp(1.25rem, 5vw, 5rem); /* 20px móvil → 80px escritorio: márgenes amplios de galería */
   --header-h: 4.5rem;
   --section-gap: clamp(7.5rem, 14vw, 13.5rem); /* 120 → 216px */
 
@@ -172,5 +172,58 @@
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Hero: el banner de marca en diagonal ----------
+   --in  (0 → 1) entrada del panel, --out (0 → 1) salida con el scroll; las anima Hero.tsx.
+   La foto se muestra pegada a la derecha de su caja (object-right): así la diagonal del
+   original (de x=488 arriba a x=335 abajo, sobre 742px de alto) cae siempre en el mismo sitio y el panel la tapa. */
+.hero {
+  --in: 1;
+  --out: 0;
+  --hh: max(calc(100svh - var(--header-h)), 38rem);
+}
+
+.hero-panel {
+  clip-path: polygon(0 18vw, 100% 0, 100% 100%, 0 100%);
+  transform: translate3d(0, calc((1 - var(--in)) * 45vh), 0);
+}
+
+@keyframes hero-ghost-drift {
+  from {
+    transform: scale(1.08) translate3d(-1.5%, 0, 0);
+  }
+  to {
+    transform: scale(1.18) translate3d(1.5%, -2%, 0);
+  }
+}
+.hero-ghost {
+  animation: hero-ghost-drift 24s ease-in-out infinite alternate;
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    --pw: min(calc(var(--hh) * 0.6604), 48vw);
+    --slant: calc(var(--hh) * 0.2062);
+    --edge: calc(var(--pw) - var(--hh) * 0.0027 - 2px + (1 - var(--in)) * (100% - var(--pw) + var(--slant)) - var(--out) * var(--pw));
+  }
+  .hero-photo {
+    width: var(--pw);
+  }
+  .hero-panel {
+    transform: none;
+    clip-path: polygon(var(--edge) 0, 100% 0, 100% 100%, calc(var(--edge) - var(--slant)) 100%);
+  }
+  .hero-edge {
+    clip-path: polygon(
+      calc(var(--edge) - 2px) 0,
+      100% 0,
+      100% 100%,
+      calc(var(--edge) - var(--slant) - 2px) 100%
+    );
+  }
+  .hero-content {
+    left: calc(var(--pw) - var(--slant) * 0.35);
   }
 }

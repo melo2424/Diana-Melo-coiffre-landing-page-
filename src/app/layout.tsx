@@ -22,7 +22,7 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Diana Melo Coiffé · Colorista experta en balayage, rubios y corrección de color",
+  title: "Diana Melo · Colorista en Villavicencio: balayage, rubios y cobrizos",
   description:
     "Estudio de Diana Melo, colorista y estilista en Colombia: balayage, rubios, decoloración y corrección de color, corte, peinado y maquillaje de novia. Agenda tu cita.",
 };

@@ -25,8 +25,8 @@ export function Reveal({ children, order = 0, className, as = "div" }: Props) {
       className={className}
       initial={{ opacity: 0, y: reduce ? 0 : 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-      transition={{ duration: reduce ? 0.2 : 0.8, delay: order * 0.07, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true, amount: 0.05 }}
+      transition={{ duration: reduce ? 0.2 : 0.7, delay: order * 0.07, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </Tag>

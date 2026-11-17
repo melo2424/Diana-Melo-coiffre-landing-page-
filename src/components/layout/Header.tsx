@@ -1,17 +1,31 @@
 "use client";
 
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { bookingHref, nav, site } from "@/data/site";
-import { Button } from "@/components/ui/Button";
+import { LogoInline } from "@/components/brand/Logo";
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 /**
- * Barra fija y plana: logotipo, cinco enlaces, una acción.
- * Fondo sólido --ink (sin vidrio ni desenfoque). En móvil, un panel a pantalla completa.
+ * Barra plana: logotipo, cinco enlaces, una acción. Fondo sólido (sin vidrio).
+ * Se esconde al bajar y vuelve al subir. En móvil, un panel a pantalla completa.
  */
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  // Arriba del todo el hero ya muestra el logotipo grande: aquí solo el monograma.
+  const [past, setPast] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    setHidden(y > 240 && y > prev && !open);
+    setPast(y > window.innerHeight * 0.55);
+  });
 
   useEffect(() => {
     if (!open) return;
@@ -31,23 +45,28 @@ export function Header() {
   }, [open]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-ink">
+    <motion.header
+      className="fixed inset-x-0 top-0 z-50 bg-ink"
+      animate={{ y: hidden ? "-100%" : "0%" }}
+      transition={{ duration: reduce ? 0 : 0.45, ease }}
+      onFocusCapture={() => setHidden(false)}
+    >
       <div className="flex h-header items-center justify-between gap-6 px-gutter">
         <a
           href="#inicio"
-          className="font-display text-[1.1875rem] leading-none whitespace-nowrap sm:text-[1.375rem] tracking-[-0.01em] text-text transition-colors duration-[var(--dur-fast)] hover:text-gold-light md:text-[1.5rem]"
+          className="text-pearl transition-colors duration-[var(--dur-fast)] hover:text-gold-light"
           aria-label={`${site.name}, inicio`}
         >
-          Diana Melo <span className="text-gold">Coiffé</span>
+          <LogoInline showWord={past || open} className="h-9 w-auto md:h-10" />
         </a>
 
         <nav aria-label="Principal" className="hidden lg:block">
-          <ul className="flex items-center gap-9">
+          <ul className="flex items-center gap-8">
             {nav.map((item) => (
               <li key={item.href}>
                 <a
                   href={item.href}
-                  className="relative py-2 text-[0.9375rem] text-text transition-colors duration-[var(--dur-fast)] after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-[var(--dur-base)] hover:text-gold-light hover:after:scale-x-100"
+                  className="relative py-2 text-[0.9375rem] text-text transition-colors duration-[var(--dur-fast)] after:absolute after:inset-x-0 after:-bottom-0.5 after:h-[2px] after:origin-left after:scale-x-0 after:bg-gold after:transition-transform after:duration-[var(--dur-base)] hover:text-gold-light hover:after:scale-x-100"
                 >
                   {item.label}
                 </a>
@@ -57,11 +76,14 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Button href={bookingHref} target="_blank" rel="noopener" className="px-4 sm:px-5">
-            <span>
-              Agendar<span className="hidden sm:inline"> cita</span>
-            </span>
-          </Button>
+          <a
+            href={bookingHref}
+            target="_blank"
+            rel="noopener"
+            className="inline-flex h-11 items-center bg-accent px-4 text-[0.9375rem] font-medium text-on-accent transition-colors duration-[var(--dur-fast)] hover:bg-gold-light active:translate-y-px sm:px-5"
+          >
+            Agendar<span className="hidden sm:inline">&nbsp;cita</span>
+          </a>
           <button
             ref={toggleRef}
             type="button"
@@ -75,31 +97,48 @@ export function Header() {
         </div>
       </div>
 
-      <div
-        id="menu-movil"
-        ref={panelRef}
-        hidden={!open}
-        className="fixed inset-x-0 bottom-0 top-header bg-onyx px-gutter pb-8 pt-10 lg:hidden"
-      >
-        <nav aria-label="Principal móvil" className="flex h-full flex-col justify-between">
-          <ul className="flex flex-col gap-1">
-            {nav.map((item) => (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="block py-2 font-display text-[2.5rem] leading-[1.1] text-text active:text-gold"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <Button href={bookingHref} target="_blank" rel="noopener" size="lg" className="w-full">
-            Agendar cita
-          </Button>
-        </nav>
-      </div>
-    </header>
+      <AnimatePresence>
+        {open ? (
+          <motion.div
+            id="menu-movil"
+            ref={panelRef}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-x-0 bottom-0 top-header bg-onyx px-gutter pb-8 pt-10 lg:hidden"
+          >
+            <nav aria-label="Principal móvil" className="flex h-full flex-col justify-between">
+              <ul className="flex flex-col gap-1">
+                {nav.map((item, i) => (
+                  <motion.li
+                    key={item.href}
+                    initial={{ opacity: 0, y: reduce ? 0 : 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.05 + i * 0.06, ease }}
+                  >
+                    <a
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="block py-2 font-display text-[2.75rem] leading-[1.1] text-text active:text-gold"
+                    >
+                      {item.label}
+                    </a>
+                  </motion.li>
+                ))}
+              </ul>
+              <a
+                href={bookingHref}
+                target="_blank"
+                rel="noopener"
+                className="inline-flex h-14 w-full items-center justify-center bg-accent text-body font-medium text-on-accent"
+              >
+                Agendar cita
+              </a>
+            </nav>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </motion.header>
   );
 }

@@ -5,6 +5,25 @@ Tokens en código: [src/app/globals.css](src/app/globals.css). Si este documento
 
 ---
 
+## 0. Rediseño del 17-11-2026: «Fotografías a tamaños desiguales»
+
+Sustituye las secciones 1, 7 y 9 en lo que contradigan. Paleta y tipografía de marca se mantienen (`--keep palette,type`).
+Ficha: `.taste-skill/direction.json` (dirección `uneven-photographs`, semilla `1442066657`; la anterior quedó en `direction-darkroom.json`); hero redibujado a «título escalonado con dos fotos» porque no hay fotos horizontales).
+
+**La idea.** La carta de tonos de Diana (Arena, Miel, Cobre, Perla…) se convierte en el filtro del muro de trabajos: las fotos cuelgan como copias en una pared de galería, a tamaños distintos y con huecos a propósito, y cada una lleva su muestra de color.
+
+**La cosa viva.** Familias (Rubios, Balayage, Cobrizos, Rizos, Cortes) + muestras de tono. Al elegir, el muro se reordena (layout animations) y el botón se reescribe: «Quiero un tono Miel» abre el chat con el mensaje escrito. Cada foto abre un visor con «Quiero este tono».
+
+**Movimiento firma.** Fundido lento entre retratos de clientas en el hero (1,6 s, 5,6 s por foto; se pausa con la pestaña oculta y se desactiva con movimiento reducido). Alrededor: titulares que salen de una máscara palabra a palabra, parallax en fotos, la línea «Diana / Melo» que se separa con el scroll, fila de Olaplex que se desliza, header que se esconde al bajar.
+
+**Secciones.** Hero (título escalonado + retrato que cambia + detalle de rizos) → Trabajos (muro + carta de tonos + visor) → Servicios (campo marfil, filas que agendan) → Diana (dos fotos de eventos + bloque dorado con el monograma DM) → Así es tu cita (tres fotos en diagonal) → Olaplex (fila con una pieza levantada) → Agenda tu cita → Footer (el nombre sobre la última foto).
+
+**Componentes.** Las secciones viven en [src/components/sections/](src/components/sections/). `Button`, `SectionHeading` y `Exhibit` (§8) se retiraron: cada sección arma sus botones y titulares animados (`SplitReveal`). Los tonos y sus muestras están en `tones` de [src/data/images.ts](src/data/images.ts).
+
+**Agendamiento.** `bookingLink(mensaje)` en [src/data/site.ts](src/data/site.ts): WhatsApp con texto prellenado cuando haya número; mientras tanto, el chat de Instagram.
+
+---
+
 ## 1. Dirección de arte
 
 ### Se propusieron dos
@@ -49,8 +68,8 @@ Español de Colombia, tuteo. Nada de «¡Agenda YA!», signos dobles ni mayúscu
 | `gold` | `#C6A15B` | **Acento.** El botón principal y como mucho un detalle más por pantalla («Coiffé» en el logotipo, el subrayado de enlaces). |
 | `gold-light` | `#E7D3A1` | Hover del acento; dorado para texto grande. |
 | `gold-deep` | `#8F6E35` | Dorado sobre marfil, **solo ≥ 24px** o decorativo. |
-| `ivory` | `#FAF7F1` | Fondo claro: footer invertido y tarjeta de visita. |
-| `pearl` | `#EFEAE1` | **Tinta de lectura** sobre oscuro (no blanco puro). |
+| `ivory` | `#EFEEEB` | Fondo claro: footer invertido y tarjeta de visita. |
+| `pearl` | `#ECEBE7` | **Tinta de lectura** sobre oscuro (no blanco puro). |
 | `stone` | `#8C867D` | Texto secundario sobre oscuro. |
 | `stone-deep` | `#6B665E` | *Añadido.* Texto secundario sobre marfil (el `stone` no llega a AA ahí). |
 | `white` | `#FFFFFF` | Reservado. No se usa para texto largo. |
@@ -102,7 +121,7 @@ Reglas: titulares en **dos líneas como máximo** en cualquier ancho. Medida de 
 ## 4. Espaciado y marco
 
 - Base 4px (escala de Tailwind).
-- Margen exterior `--gutter`: `clamp(16px, 2.6vw, 36px)`. Igual a ambos lados, siempre.
+- Margen exterior `--gutter`: `clamp(20px, 5vw, 80px)` (márgenes amplios de galería). Igual a ambos lados, siempre.
 - Separación entre secciones `--section-gap`: `clamp(120px, 14vw, 216px)`.
 - Título → frase de apoyo: 24px (móvil) / 32px (escritorio). Título → contenido: 64px.
 - Retícula de 12 columnas en `md+`, 2 en móvil. La asimetría vive dentro de la retícula, nunca en el marco.

@@ -1,29 +1,36 @@
 /** Datos de marca y contacto. Lo marcado POR CONFIRMAR debe validarlo Diana antes de publicar. */
 export const site = {
-  name: "Diana Melo Coiffé",
+  name: "Diana Melo Coiffure", // como en el logotipo aprobado
   shortName: "Diana Melo",
   role: "Colorista y estilista",
   instagram: { handle: "@dianamelocolorlab", url: "https://www.instagram.com/dianamelocolorlab/" },
-  // POR CONFIRMAR: número de WhatsApp de agendamiento (formato internacional sin +).
-  whatsapp: { number: "", message: "Hola Diana, quiero agendar una cita." },
-  // POR CONFIRMAR: dirección, ciudad y horario. Las fotos de eventos apuntan a Villavicencio (Meta).
-  address: { line1: "Dirección por confirmar", city: "Ciudad por confirmar" },
-  hours: [
-    { days: "Lunes a viernes", time: "Por confirmar" },
-    { days: "Sábado", time: "Por confirmar" },
-    { days: "Domingo", time: "Con cita previa" },
-  ],
+  // POR CONFIRMAR: número de WhatsApp de agendamiento, formato internacional sin + (p. ej. "573001234567").
+  // Mientras esté vacío, todos los botones abren un mensaje directo de Instagram.
+  whatsapp: { number: "" },
+  // POR CONFIRMAR: ciudad deducida de las fotos de eventos (Hotel Estelar Villavicencio, Cluster Moda Orinoquía).
+  city: "Villavicencio, Meta",
 } as const;
 
 export const nav = [
+  { label: "Trabajos", href: "#trabajos" },
   { label: "Servicios", href: "#servicios" },
   { label: "Diana", href: "#diana" },
-  { label: "Trabajos", href: "#trabajos" },
-  { label: "Productos", href: "#productos" },
-  { label: "Ubicación", href: "#ubicacion" },
+  { label: "Tu cita", href: "#tu-cita" },
+  { label: "Olaplex", href: "#olaplex" },
 ] as const;
 
-/** Enlace de agendamiento: WhatsApp si hay número, si no Instagram. */
-export const bookingHref = site.whatsapp.number
-  ? `https://wa.me/${site.whatsapp.number}?text=${encodeURIComponent(site.whatsapp.message)}`
-  : site.instagram.url;
+const defaultMessage = "Hola Diana, quiero agendar una cita.";
+
+/**
+ * Enlace de agendamiento con el mensaje ya escrito.
+ * WhatsApp si hay número (el texto llega prellenado); si no, el chat de Instagram.
+ */
+export function bookingLink(message: string = defaultMessage): string {
+  if (site.whatsapp.number) {
+    return `https://wa.me/${site.whatsapp.number}?text=${encodeURIComponent(message)}`;
+  }
+  return "https://ig.me/m/dianamelocolorlab";
+}
+
+export const bookingChannel = site.whatsapp.number ? "WhatsApp" : "Instagram";
+export const bookingHref = bookingLink();

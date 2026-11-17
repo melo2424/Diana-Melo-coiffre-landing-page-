@@ -2,27 +2,50 @@
  * Catálogo de imágenes del sitio.
  * Las variantes WebP y sus dimensiones vienen de `image-manifest.json`,
  * que genera `npm run images` (scripts/optimize-images.mjs).
- * Aquí solo se escribe lo editorial: alt, categoría, tono y avisos.
+ * Aquí solo se escribe lo editorial: alt, familia, tono y avisos.
  */
 import manifest from "./image-manifest.json";
 
-export type Category =
-  | "balayage"
-  | "rubios"
-  | "cobrizos"
-  | "corte"
-  | "peinado"
-  | "maquillaje"
-  | "producto"
-  | "trayectoria"
-  | "marca";
+/** Familias del portafolio: así filtra la visitante. */
+export type Family = "rubios" | "balayage" | "cobrizos" | "rizos" | "cortes";
+
+/** Fotos que no son trabajos de color. */
+export type Other = "maquillaje" | "trayectoria" | "producto" | "marca";
+
+export type Category = Family | Other;
 
 export type Group = "trabajos" | "shooting" | "olaplex";
+
+export const families: { id: Family; label: string; lede: string }[] = [
+  { id: "rubios", label: "Rubios", lede: "Del platino al beige: aclarados parejos y matiz a la medida." },
+  { id: "balayage", label: "Balayage", lede: "Luz pintada a mano, raíz difuminada que crece sin raya." },
+  { id: "cobrizos", label: "Cobrizos", lede: "Cobre con brillo de espejo, de lo natural a lo intenso." },
+  { id: "rizos", label: "Rizos", lede: "Color en cabello rizado sin perder la definición." },
+  { id: "cortes", label: "Cortes", lede: "Bob y melenas cortas pensados junto con el color." },
+];
+
+/**
+ * Carta de tonos. Cada tono lleva el color de su muestra.
+ * Solo «Arena» está confirmado (Diana lo rotula en una publicación); el resto es propuesta POR CONFIRMAR.
+ */
+export const tones: Record<string, string> = {
+  Platino: "#EDEBE4",
+  Perla: "#E9E1D2",
+  Vainilla: "#EBD9AE",
+  Champaña: "#E3CFA4",
+  Ceniza: "#BDB6A6",
+  Beige: "#D6C2A0",
+  Arena: "#C9AE86",
+  Dorado: "#C29147",
+  Miel: "#B9853F",
+  Caramelo: "#A26A35",
+  Cobre: "#B0552B",
+  Chocolate: "#5A3A26",
+};
 
 type Editorial = {
   alt: string;
   category: Category;
-  /** Nombre de tono a la manera de Diana. Solo "Arena" está confirmado (lo usa en su publicación); el resto es propuesta. */
   tone?: string;
   /** La foto trae texto, sticker o marca de agua incrustada: no usar en tamaño grande. */
   overlay?: string;
@@ -47,7 +70,7 @@ const editorial: Record<Group, Record<string, Editorial>> = {
     },
     "2026-08-31-dcue8nyfzsh": {
       alt: "Cabello largo rubio champaña con raíz castaña difuminada, visto de perfil sobre bata negra",
-      category: "balayage",
+      category: "rubios",
       tone: "Champaña",
     },
     "2026-09-09-ddexmsmrjwj": {
@@ -55,10 +78,12 @@ const editorial: Record<Group, Record<string, Editorial>> = {
       category: "balayage",
       tone: "Miel",
       overlay: "Texto de la historia de Instagram sobre la foto",
+      showcase: false,
     },
     "2026-09-12-ddmmavjdhjt": {
-      alt: "Melena larga y lisa en rubio claro con raíz suave, vista de espalda en el salón",
+      alt: "Melena larga y lisa en rubio vainilla con raíz suave, vista de espalda en el salón",
       category: "rubios",
+      tone: "Vainilla",
     },
     "2026-09-17-ddznl9uv3xr": {
       alt: "Rubio beige con mechas finas y raíz natural, cabello largo y liso visto de espalda",
@@ -87,7 +112,7 @@ const editorial: Record<Group, Record<string, Editorial>> = {
     },
     "2026-09-23-ddo1qlhlniz": {
       alt: "Cabello largo rizado en rubio dorado oscuro, definido y con volumen, visto de espalda",
-      category: "rubios",
+      category: "rizos",
       tone: "Dorado",
     },
     "2026-09-24-ddq5aacrgy": {
@@ -137,7 +162,8 @@ const editorial: Record<Group, Record<string, Editorial>> = {
     },
     "2026-10-28-dfc-ebsiim9": {
       alt: "Corte bob recto a la altura de los hombros con degradado de castaño a rubio, sobre bata con monograma dorado",
-      category: "corte",
+      category: "cortes",
+      tone: "Arena",
     },
     "2026-10-31-dfk4qhij3tr": {
       alt: "Cabello largo en ondas con balayage chocolate y caramelo, visto de espalda",
@@ -149,6 +175,7 @@ const editorial: Record<Group, Record<string, Editorial>> = {
       category: "balayage",
       tone: "Caramelo",
       overlay: "Marca de agua de TikTok",
+      showcase: false,
     },
   },
   shooting: {
@@ -169,13 +196,14 @@ const editorial: Record<Group, Record<string, Editorial>> = {
     },
     "shooting-04-2024-02-05": {
       alt: "Clienta de perfil con cabello largo castaño y mechas cobrizas en ondas",
-      category: "balayage",
+      category: "cobrizos",
       tone: "Cobre",
       overlay: "Marca de agua @dianamelosalon",
     },
     "shooting-05-2024-04-17": {
       alt: "Clienta con bob a la altura de la mandíbula y mechas rubias frontales sobre base oscura",
-      category: "corte",
+      category: "cortes",
+      tone: "Beige",
     },
     "shooting-06-2024-04-17": {
       alt: "Clienta con balayage castaño claro largo mientras la estilista acomoda un mechón",
@@ -204,7 +232,7 @@ const editorial: Record<Group, Record<string, Editorial>> = {
     },
     "shooting-11-2024-06-15": {
       alt: "Clienta con rizos largos y definidos en balayage castaño y dorado",
-      category: "balayage",
+      category: "rizos",
       tone: "Dorado",
     },
     "shooting-12-2024-08-14": {
@@ -217,6 +245,7 @@ const editorial: Record<Group, Record<string, Editorial>> = {
       category: "balayage",
       tone: "Miel",
       overlay: "Texto #tbt",
+      showcase: false,
     },
   },
   olaplex: {
@@ -248,6 +277,7 @@ const editorial: Record<Group, Record<string, Editorial>> = {
       alt: "Olaplex N.º1 y N.º2 entre matraces de laboratorio con líquido ámbar",
       category: "producto",
       overlay: "Es una captura de pantalla: confirmar derechos de uso",
+      showcase: false,
     },
   },
 };
@@ -282,11 +312,7 @@ export const images = {
   olaplex: build("olaplex"),
 };
 
-export const allImages: SiteImage[] = [
-  ...images.trabajos,
-  ...images.shooting,
-  ...images.olaplex,
-];
+export const allImages: SiteImage[] = [...images.trabajos, ...images.shooting, ...images.olaplex];
 
 export const byId = (id: string): SiteImage => {
   const img = allImages.find((i) => i.id === id);
@@ -294,5 +320,32 @@ export const byId = (id: string): SiteImage => {
   return img;
 };
 
-export const byCategory = (c: Category) =>
-  allImages.filter((i) => i.category === c && i.showcase !== false);
+const familyIds = new Set<Category>(families.map((f) => f.id));
+
+/**
+ * Orden del muro en «Todos»: primero los trabajos que mejor cuentan la variedad
+ * (un rubio, un cobre, unos rizos, un balayage…); los retratos del hero van al final.
+ */
+const featured = [
+  "shooting/shooting-09-2024-05-14",
+  "trabajos/2026-10-23-de1y2-xxi4u",
+  "trabajos/2026-09-29-dd5rj0vdvyb",
+  "trabajos/2026-10-31-dfk4qhij3tr",
+  "trabajos/2026-10-19-desom3opuns",
+  "shooting/shooting-11-2024-06-15",
+  "trabajos/2026-10-26-de-pk5bf-jg",
+  "trabajos/2026-10-07-denaj2oj4g2",
+  "trabajos/2026-09-22-ddmzgsmj6ze",
+  "trabajos/2026-10-28-dfc-ebsiim9",
+  "shooting/shooting-12-2024-08-14",
+  "trabajos/2026-09-20-ddhk4fvdy81",
+];
+const rank = (id: string) => {
+  const i = featured.indexOf(id);
+  return i === -1 ? featured.length : i;
+};
+
+/** El portafolio: solo trabajos de color, primero los destacados y luego del más reciente al más antiguo. */
+export const portfolio: SiteImage[] = [...images.trabajos, ...images.shooting]
+  .filter((i) => familyIds.has(i.category) && i.showcase !== false)
+  .sort((a, b) => rank(a.id) - rank(b.id) || (a.id < b.id ? 1 : -1));
