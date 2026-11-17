@@ -1,0 +1,612 @@
+{
+  "trabajos": [
+    {
+      "slug": "2026-08-29-dcopqbwxmje",
+      "source": "2026-08-29_DcopQbwxmJe.jpg",
+      "width": 360,
+      "height": 640,
+      "variants": [
+        {
+          "w": 360,
+          "src": "/images/trabajos/2026-08-29-dcopqbwxmje-360.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-08-31-dcue8nyfzsh",
+      "source": "2026-08-31_Dcue8nYFzsH.jpg",
+      "width": 480,
+      "height": 640,
+      "variants": [
+        {
+          "w": 480,
+          "src": "/images/trabajos/2026-08-31-dcue8nyfzsh-480.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-09-ddexmsmrjwj",
+      "source": "2026-09-09_DdExmSmRJWj.jpg",
+      "width": 360,
+      "height": 640,
+      "variants": [
+        {
+          "w": 360,
+          "src": "/images/trabajos/2026-09-09-ddexmsmrjwj-360.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-12-ddmmavjdhjt",
+      "source": "2026-09-12_DdMMaVJDhJT.jpg",
+      "width": 480,
+      "height": 640,
+      "variants": [
+        {
+          "w": 480,
+          "src": "/images/trabajos/2026-09-12-ddmmavjdhjt-480.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-17-ddznl9uv3xr",
+      "source": "2026-09-17_DdZnL9uv3xr.jpg",
+      "width": 360,
+      "height": 640,
+      "variants": [
+        {
+          "w": 360,
+          "src": "/images/trabajos/2026-09-17-ddznl9uv3xr-360.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-20-ddhk4fvdy81",
+      "source": "2026-09-20_Ddhk4fvDy81.jpg",
+      "width": 480,
+      "height": 640,
+      "variants": [
+        {
+          "w": 480,
+          "src": "/images/trabajos/2026-09-20-ddhk4fvdy81-480.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-21-ddkencevupw",
+      "source": "2026-09-21_DdkEnCEvUPw.jpg",
+      "width": 360,
+      "height": 640,
+      "variants": [
+        {
+          "w": 360,
+          "src": "/images/trabajos/2026-09-21-ddkencevupw-360.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-21-ddks5xwjxbb",
+      "source": "2026-09-21_DdkS5XwjXbb.jpg",
+      "width": 480,
+      "height": 640,
+      "variants": [
+        {
+          "w": 480,
+          "src": "/images/trabajos/2026-09-21-ddks5xwjxbb-480.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-22-ddmzgsmj6ze",
+      "source": "2026-09-22_DdmzgSMj6ze.jpg",
+      "width": 481,
+      "height": 640,
+      "variants": [
+        {
+          "w": 481,
+          "src": "/images/trabajos/2026-09-22-ddmzgsmj6ze-481.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-23-ddo1qlhlniz",
+      "source": "2026-09-23_Ddo1QlhlNiZ.jpg",
+      "width": 480,
+      "height": 640,
+      "variants": [
+        {
+          "w": 480,
+          "src": "/images/trabajos/2026-09-23-ddo1qlhlniz-480.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-24-ddq5aacrgy",
+      "source": "2026-09-24_Ddq5aACRgY-.jpg",
+      "width": 480,
+      "height": 640,
+      "variants": [
+        {
+          "w": 480,
+          "src": "/images/trabajos/2026-09-24-ddq5aacrgy-480.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-29-dd5rj0vdvyb",
+      "source": "2026-09-29_Dd5Rj0VDVYb.jpg",
+      "width": 480,
+      "height": 640,
+      "variants": [
+        {
+          "w": 480,
+          "src": "/images/trabajos/2026-09-29-dd5rj0vdvyb-480.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-10-03-dec5mouv6m5",
+      "source": "2026-10-03_DeC5MOuv6M5.jpg",
+      "width": 361,
+      "height": 640,
+      "variants": [
+        {
+          "w": 361,
+          "src": "/images/trabajos/2026-10-03-dec5mouv6m5-361.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-10-04-degg4-rjff7",
+      "source": "2026-10-04_DeGG4_RjfF7.jpg",
+      "width": 480,
+      "height": 640,
+      "variants": [
+        {
+          "w": 480,
+          "src": "/images/trabajos/2026-10-04-degg4-rjff7-480.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-10-07-denaj2oj4g2",
+      "source": "2026-10-07_DeNaj2oj4g2.jpg",
+      "width": 481,
+      "height": 640,
+      "variants": [
+        {
+          "w": 481,
+          "src": "/images/trabajos/2026-10-07-denaj2oj4g2-481.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-10-14-defcrvtd-fb",
+      "source": "2026-10-14_DefcRvTD_fb.jpg",
+      "width": 539,
+      "height": 640,
+      "variants": [
+        {
+          "w": 539,
+          "src": "/images/trabajos/2026-10-14-defcrvtd-fb-539.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-10-19-desom3opuns",
+      "source": "2026-10-19_DesOM3oPUnS.jpg",
+      "width": 360,
+      "height": 640,
+      "variants": [
+        {
+          "w": 360,
+          "src": "/images/trabajos/2026-10-19-desom3opuns-360.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-10-23-de1y2-xxi4u",
+      "source": "2026-10-23_De1y2-Xxi4U.jpg",
+      "width": 361,
+      "height": 640,
+      "variants": [
+        {
+          "w": 361,
+          "src": "/images/trabajos/2026-10-23-de1y2-xxi4u-361.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-10-26-de-pk5bf-jg",
+      "source": "2026-10-26_De-pK5BF-jG.jpg",
+      "width": 481,
+      "height": 640,
+      "variants": [
+        {
+          "w": 481,
+          "src": "/images/trabajos/2026-10-26-de-pk5bf-jg-481.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-10-28-dfc-ebsiim9",
+      "source": "2026-10-28_DfC-EbSIIm9.jpg",
+      "width": 480,
+      "height": 640,
+      "variants": [
+        {
+          "w": 480,
+          "src": "/images/trabajos/2026-10-28-dfc-ebsiim9-480.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-10-31-dfk4qhij3tr",
+      "source": "2026-10-31_DfK4qHIj3tR.jpg",
+      "width": 480,
+      "height": 640,
+      "variants": [
+        {
+          "w": 480,
+          "src": "/images/trabajos/2026-10-31-dfk4qhij3tr-480.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-11-04-dfu5grsrsyo",
+      "source": "2026-11-04_DfU5GRSRSyo.jpg",
+      "width": 360,
+      "height": 640,
+      "variants": [
+        {
+          "w": 360,
+          "src": "/images/trabajos/2026-11-04-dfu5grsrsyo-360.webp"
+        }
+      ]
+    }
+  ],
+  "shooting": [
+    {
+      "slug": "shooting-01-2022-08-01",
+      "source": "shooting_01_2022-08-01.jpg",
+      "width": 1125,
+      "height": 2000,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-01-2022-08-01-640.webp"
+        },
+        {
+          "w": 1080,
+          "src": "/images/shooting/shooting-01-2022-08-01-1080.webp"
+        },
+        {
+          "w": 1125,
+          "src": "/images/shooting/shooting-01-2022-08-01-1125.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-02-2023-11-04",
+      "source": "shooting_02_2023-11-04.jpg",
+      "width": 960,
+      "height": 1706,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-02-2023-11-04-640.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/shooting/shooting-02-2023-11-04-960.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-03-2023-12-04-video-cover",
+      "source": "shooting_03_2023-12-04_video-cover.jpg",
+      "width": 640,
+      "height": 1136,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-03-2023-12-04-video-cover-640.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-04-2024-02-05",
+      "source": "shooting_04_2024-02-05.jpg",
+      "width": 960,
+      "height": 1706,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-04-2024-02-05-640.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/shooting/shooting-04-2024-02-05-960.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-05-2024-04-17",
+      "source": "shooting_05_2024-04-17.jpg",
+      "width": 960,
+      "height": 1706,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-05-2024-04-17-640.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/shooting/shooting-05-2024-04-17-960.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-06-2024-04-17",
+      "source": "shooting_06_2024-04-17.jpg",
+      "width": 960,
+      "height": 1706,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-06-2024-04-17-640.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/shooting/shooting-06-2024-04-17-960.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-07-2024-05-12-video-cover",
+      "source": "shooting_07_2024-05-12_video-cover.jpg",
+      "width": 640,
+      "height": 1136,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-07-2024-05-12-video-cover-640.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-08-2024-05-13",
+      "source": "shooting_08_2024-05-13.jpg",
+      "width": 960,
+      "height": 1706,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-08-2024-05-13-640.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/shooting/shooting-08-2024-05-13-960.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-09-2024-05-14",
+      "source": "shooting_09_2024-05-14.jpg",
+      "width": 960,
+      "height": 1706,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-09-2024-05-14-640.webp"
+        },
+        {
+          "w": 960,
+          "src": "/images/shooting/shooting-09-2024-05-14-960.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-10-2024-06-01",
+      "source": "shooting_10_2024-06-01.jpg",
+      "width": 1284,
+      "height": 2282,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-10-2024-06-01-640.webp"
+        },
+        {
+          "w": 1080,
+          "src": "/images/shooting/shooting-10-2024-06-01-1080.webp"
+        },
+        {
+          "w": 1284,
+          "src": "/images/shooting/shooting-10-2024-06-01-1284.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-11-2024-06-15",
+      "source": "shooting_11_2024-06-15.jpg",
+      "width": 1284,
+      "height": 2282,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-11-2024-06-15-640.webp"
+        },
+        {
+          "w": 1080,
+          "src": "/images/shooting/shooting-11-2024-06-15-1080.webp"
+        },
+        {
+          "w": 1284,
+          "src": "/images/shooting/shooting-11-2024-06-15-1284.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-12-2024-08-14",
+      "source": "shooting_12_2024-08-14.jpg",
+      "width": 1284,
+      "height": 2282,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-12-2024-08-14-640.webp"
+        },
+        {
+          "w": 1080,
+          "src": "/images/shooting/shooting-12-2024-08-14-1080.webp"
+        },
+        {
+          "w": 1284,
+          "src": "/images/shooting/shooting-12-2024-08-14-1284.webp"
+        }
+      ]
+    },
+    {
+      "slug": "shooting-13-2024-08-15",
+      "source": "shooting_13_2024-08-15.jpg",
+      "width": 1284,
+      "height": 2282,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/shooting/shooting-13-2024-08-15-640.webp"
+        },
+        {
+          "w": 1080,
+          "src": "/images/shooting/shooting-13-2024-08-15-1080.webp"
+        },
+        {
+          "w": 1284,
+          "src": "/images/shooting/shooting-13-2024-08-15-1284.webp"
+        }
+      ]
+    }
+  ],
+  "olaplex": [
+    {
+      "slug": "2025-03-28-dhwhf-wudiz",
+      "source": "2025-03-28_DHwhf-WudiZ.jpg",
+      "width": 1440,
+      "height": 1710,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/olaplex/2025-03-28-dhwhf-wudiz-640.webp"
+        },
+        {
+          "w": 1080,
+          "src": "/images/olaplex/2025-03-28-dhwhf-wudiz-1080.webp"
+        },
+        {
+          "w": 1440,
+          "src": "/images/olaplex/2025-03-28-dhwhf-wudiz-1440.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-07-13-datxwxtjrqu-1",
+      "source": "2026-07-13_DatxwXtjRQU_1.jpg",
+      "width": 1080,
+      "height": 1080,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/olaplex/2026-07-13-datxwxtjrqu-1-640.webp"
+        },
+        {
+          "w": 1080,
+          "src": "/images/olaplex/2026-07-13-datxwxtjrqu-1-1080.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-08-01-dbgeyfeu0k6-reel-cover",
+      "source": "2026-08-01_DbgEYfEu0K6_reel-cover.jpg",
+      "width": 720,
+      "height": 1280,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/olaplex/2026-08-01-dbgeyfeu0k6-reel-cover-640.webp"
+        },
+        {
+          "w": 720,
+          "src": "/images/olaplex/2026-08-01-dbgeyfeu0k6-reel-cover-720.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-16-ddvnk9ehndc-reel-cover",
+      "source": "2026-09-16_DdVNk9ehNDC_reel-cover.jpg",
+      "width": 720,
+      "height": 1280,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/olaplex/2026-09-16-ddvnk9ehndc-reel-cover-640.webp"
+        },
+        {
+          "w": 720,
+          "src": "/images/olaplex/2026-09-16-ddvnk9ehndc-reel-cover-720.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-09-21-ddjgpkgjqmi-1",
+      "source": "2026-09-21_DdjgPKgjqMi_1.jpg",
+      "width": 720,
+      "height": 900,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/olaplex/2026-09-21-ddjgpkgjqmi-1-640.webp"
+        },
+        {
+          "w": 720,
+          "src": "/images/olaplex/2026-09-21-ddjgpkgjqmi-1-720.webp"
+        }
+      ]
+    },
+    {
+      "slug": "2026-10-23-de1skrfnya",
+      "source": "2026-10-23_De1sKRfNyA_.jpg",
+      "width": 2048,
+      "height": 2048,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/olaplex/2026-10-23-de1skrfnya-640.webp"
+        },
+        {
+          "w": 1080,
+          "src": "/images/olaplex/2026-10-23-de1skrfnya-1080.webp"
+        },
+        {
+          "w": 1600,
+          "src": "/images/olaplex/2026-10-23-de1skrfnya-1600.webp"
+        }
+      ]
+    },
+    {
+      "slug": "captura-de-pantalla-2026-11-09-164829",
+      "source": "Captura de pantalla 2026-11-09 164829.png",
+      "width": 833,
+      "height": 823,
+      "variants": [
+        {
+          "w": 640,
+          "src": "/images/olaplex/captura-de-pantalla-2026-11-09-164829-640.webp"
+        },
+        {
+          "w": 833,
+          "src": "/images/olaplex/captura-de-pantalla-2026-11-09-164829-833.webp"
+        }
+      ]
+    }
+  ]
+}

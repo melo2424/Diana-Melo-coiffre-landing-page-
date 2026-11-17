@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Diana Melo Coiffé — tokens
+   Fuente de verdad: DESIGN.md. Los componentes usan SOLO estos
+   tokens (clases de Tailwind generadas desde @theme), nunca hex.
+   ============================================================ */
+
+:root {
+  /* Paleta de marca */
+  --ink: #0b0b0c; /* fondo de la "sala oscura" */
+  --onyx: #17161a; /* superficie un paso más clara */
+  --graphite: #2a282d; /* superficie elevada / estados hover */
+  --gold: #c6a15b; /* acento: acción principal y un detalle por pantalla */
+  --gold-light: #e7d3a1; /* hover del acento, texto dorado grande */
+  --gold-deep: #8f6e35; /* dorado sobre marfil (solo ≥24px o decorativo) */
+  --ivory: #faf7f1; /* fondo claro: footer y tarjeta de visita */
+  --pearl: #efeae1; /* tinta de lectura sobre oscuro (16.4:1) */
+  --stone: #8c867d; /* texto secundario sobre oscuro (5.4:1) */
+  --stone-deep: #6b665e; /* texto secundario sobre marfil (5.3:1) — añadido para AA */
+  --white: #ffffff;
+
+  /* Roles semánticos */
+  --bg: var(--ink);
+  --surface: var(--onyx);
+  --surface-2: var(--graphite);
+  --text: var(--pearl);
+  --text-muted: var(--stone);
+  --accent: var(--gold);
+  --accent-hover: var(--gold-light);
+  --on-accent: var(--ink);
+
+  /* Tipo (cinco pasos) */
+  --fs-monument: clamp(3.5rem, 12.4vw, 14.5rem); /* el nombre, de margen a margen */
+  --fs-title: clamp(2.25rem, 5.2vw, 4.75rem); /* h2 de sección */
+  --fs-statement: clamp(1.5rem, 2.5vw, 2.25rem); /* frases, ≤36px */
+
+  /* Marco */
+  --gutter: clamp(1rem, 2.6vw, 2.25rem); /* 16px móvil → 36px escritorio */
+  --header-h: 4.5rem;
+  --section-gap: clamp(7.5rem, 14vw, 13.5rem); /* 120 → 216px */
+
+  /* Movimiento */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 180ms;
+  --dur-base: 320ms;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-onyx: var(--onyx);
+  --color-graphite: var(--graphite);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-deep: var(--gold-deep);
+  --color-ivory: var(--ivory);
+  --color-pearl: var(--pearl);
+  --color-stone: var(--stone);
+  --color-stone-deep: var(--stone-deep);
+  --color-white: var(--white);
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+
+  --font-display: var(--font-bodoni), "Didot", "Bodoni 72", Georgia, serif;
+  --font-sans: var(--font-jost), "Futura", "Segoe UI", system-ui, sans-serif;
+
+  /* Cinco pasos de tipo. Nada más. (Valores en :root › Tipo) */
+  --text-monument: var(--fs-monument);
+  --text-monument--line-height: 0.86;
+  --text-monument--letter-spacing: -0.035em;
+  --text-title: var(--fs-title);
+  --text-title--line-height: 0.98;
+  --text-title--letter-spacing: -0.025em;
+  --text-statement: var(--fs-statement);
+  --text-statement--line-height: 1.22;
+  --text-statement--letter-spacing: -0.01em;
+  --text-body: 1.0625rem; /* 17px */
+  --text-body--line-height: 1.6;
+  --text-small: 0.875rem; /* 14px: pies de foto, legal */
+  --text-small--line-height: 1.45;
+
+  --spacing-gutter: var(--gutter);
+  --spacing-section: var(--section-gap);
+  --spacing-header: var(--header-h);
+
+  --ease-out-soft: var(--ease-out);
+  --radius-none: 0;
+}
+
+/* ---------- Base (en capa: las utilidades de Tailwind deben poder ganarle) ---------- */
+
+@layer base {
+
+  html {
+    background: var(--bg);
+    color: var(--text);
+    scroll-padding-top: var(--header-h);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem; /* = text-body (17px) */
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  ::selection {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Fotos en la sala oscura: más apagadas en reposo, se "encienden" al pasar. */
+.exhibit-img {
+  filter: brightness(0.88) contrast(1.04);
+  transition: filter 600ms var(--ease-out);
+}
+.group:hover .exhibit-img,
+.group:focus-visible .exhibit-img {
+  filter: brightness(1) contrast(1.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
