@@ -5,6 +5,8 @@
 Web de presentación y agendamiento de **Diana Melo** (Instagram [@dianamelocolorlab](https://www.instagram.com/dianamelocolorlab/)), colorista y estilista en Colombia. Especialidad: **colorimetría** (balayage, rubios, decoloración, corrección de color), además de corte, peinado y maquillaje de novia.
 Público: mujeres en Colombia que buscan una colorista experta y de confianza. Sitio en **español de Colombia** (tuteo).
 
+**Agenda de diagnóstico** (#agendar): reserva conectada al Google Calendar de Diana + confirmación por WhatsApp. Configuración y credenciales en **[AGENDA.md](AGENDA.md)**.
+
 **No es una tienda.** Los productos Olaplex se muestran como vitrina: sin precios, carrito ni compra. El agendamiento sale por WhatsApp (o Instagram mientras no haya número).
 
 Diseño: lee **[DESIGN.md](DESIGN.md)** antes de tocar cualquier cosa visual. Dirección «sala oscura» (`dark-room`), Bodoni Moda + Jost, paleta negro/dorado/marfil, botones en píldora (`<Cta>`), muestras redondas; ver §0b de DESIGN.md.
@@ -61,6 +63,8 @@ node ~/.claude/skills/taste-skill/scripts/inspect.mjs http://localhost:3000
 Al añadir una foto: déjala en `dianamelocolorlab/<grupo>/`, ejecuta `npm run images` y escribe su entrada en `src/data/images.ts`. Si falta, el build falla a propósito.
 
 ## Pendiente de confirmar con Diana
+
+- Credenciales de Google Calendar (cuenta de servicio, ver AGENDA.md), horario y duración del diagnóstico, y política de tratamiento de datos.
 
 - Número de WhatsApp, dirección, ciudad (las fotos de eventos apuntan a Villavicencio, Meta) y horario → `src/data/site.ts`.
 - Nombre de marca: se pidió «Coiffé»; en las batas se lee «Coiffure». Confirmar la grafía.

@@ -44,6 +44,41 @@ export function Cta({ href, children, variant = "gold", size = "md", icon, exter
   );
 }
 
+/** El mismo botón, para formularios. */
+export function CtaButton({
+  children,
+  type = "button",
+  disabled,
+  onClick,
+  icon,
+  size = "md",
+  className = "",
+}: {
+  children: ReactNode;
+  type?: "button" | "submit";
+  disabled?: boolean;
+  onClick?: () => void;
+  icon?: ReactNode;
+  size?: "md" | "lg";
+  className?: string;
+}) {
+  const glyph = icon ?? <Arrow />;
+  return (
+    <button
+      type={type}
+      disabled={disabled}
+      onClick={onClick}
+      className={`cta ${size === "lg" ? "cta--lg" : ""} disabled:pointer-events-none disabled:opacity-45 ${className}`}
+    >
+      <span>{children}</span>
+      <span aria-hidden className="cta-icon">
+        {glyph}
+        {glyph}
+      </span>
+    </button>
+  );
+}
+
 export function Arrow({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" className={className}>

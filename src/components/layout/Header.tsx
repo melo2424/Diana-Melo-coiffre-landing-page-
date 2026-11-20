@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { bookingHref, nav, site } from "@/data/site";
+import { nav, site } from "@/data/site";
 import { LogoInline } from "@/components/brand/Logo";
 import { Cta } from "@/components/ui/Cta";
 
@@ -77,7 +77,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Cta href={bookingHref} size="sm" icon={null}>
+          <Cta href="#agendar" size="sm" icon={null}>
             Agendar<span className="hidden sm:inline">&nbsp;cita</span>
           </Cta>
           <button
@@ -123,7 +123,7 @@ export function Header() {
                   </motion.li>
                 ))}
               </ul>
-              <Cta href={bookingHref} size="lg" className="w-full justify-between">
+              <Cta href="#agendar" size="lg" className="w-full justify-between" onClick={() => setOpen(false)}>
                 Agendar cita
               </Cta>
             </nav>

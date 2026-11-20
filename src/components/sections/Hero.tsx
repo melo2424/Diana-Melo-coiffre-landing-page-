@@ -10,7 +10,6 @@ import {
   useTransform,
 } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
-import { bookingHref } from "@/data/site";
 import { Monogram, Tagline, Wordmark } from "@/components/brand/Logo";
 import { Cta } from "@/components/ui/Cta";
 
@@ -156,7 +155,7 @@ export function Hero() {
                 Colorista en Villavicencio: balayage, rubios y cobrizos hechos a la medida de tu cabello.
               </p>
               <div className="mt-7 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-                <Cta href={bookingHref} size="lg">
+                <Cta href="#agendar" size="lg">
                   Agendar cita
                 </Cta>
                 <Cta href="#trabajos" variant="ghost" size="lg">
