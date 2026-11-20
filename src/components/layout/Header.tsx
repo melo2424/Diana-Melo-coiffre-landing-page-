@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { nav, site } from "@/data/site";
 import { LogoInline } from "@/components/brand/Logo";
 import { Cta } from "@/components/ui/Cta";
+import Link from "next/link";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -53,13 +54,13 @@ export function Header() {
       onFocusCapture={() => setHidden(false)}
     >
       <div className="flex h-header items-center justify-between gap-6 px-gutter">
-        <a
-          href="#inicio"
+        <Link
+          href="/#inicio"
           className="text-pearl transition-colors duration-[var(--dur-fast)] hover:text-gold-light"
           aria-label={`${site.name}, inicio`}
         >
           <LogoInline showWord={past || open} className="h-9 w-auto md:h-10" />
-        </a>
+        </Link>
 
         <nav aria-label="Principal" className="hidden lg:block">
           <ul className="flex items-center gap-8">
@@ -77,7 +78,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Cta href="#agendar" size="sm" icon={null}>
+          <Cta href="/#agendar" size="sm" icon={null}>
             Agendar<span className="hidden sm:inline">&nbsp;cita</span>
           </Cta>
           <button
@@ -123,7 +124,7 @@ export function Header() {
                   </motion.li>
                 ))}
               </ul>
-              <Cta href="#agendar" size="lg" className="w-full justify-between" onClick={() => setOpen(false)}>
+              <Cta href="/#agendar" size="lg" className="w-full justify-between" onClick={() => setOpen(false)}>
                 Agendar cita
               </Cta>
             </nav>

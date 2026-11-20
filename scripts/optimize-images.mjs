@@ -15,6 +15,8 @@ const groups = [
   { name: "trabajos", dir: path.join(SRC, "trabajos") },
   { name: "shooting", dir: path.join(SRC, "Shooting") },
   { name: "olaplex", dir: path.join(SRC, "Olaplex promocionales") },
+  // parejas <nombre>-antes.jpg / <nombre>-despues.jpg (ver src/data/before-after.ts)
+  { name: "antes-despues", dir: path.join(SRC, "antes-despues") },
 ];
 
 const slugify = (f) =>
@@ -29,7 +31,8 @@ const slugify = (f) =>
 const manifest = {};
 
 for (const g of groups) {
-  const files = (await readdir(g.dir, { withFileTypes: true }))
+  const entries = await readdir(g.dir, { withFileTypes: true }).catch(() => []);
+  const files = entries
     .filter((d) => d.isFile() && /\.(jpe?g|png)$/i.test(d.name))
     .map((d) => d.name)
     .sort();

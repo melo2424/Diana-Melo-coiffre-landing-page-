@@ -1,7 +1,7 @@
 import type { SiteImage } from "@/data/images";
 
 type Props = {
-  image: SiteImage;
+  image: Pick<SiteImage, "src" | "srcSet" | "width" | "height" | "alt">;
   /** Atributo sizes real del hueco que ocupa (p. ej. "(min-width: 768px) 40vw, 90vw"). */
   sizes: string;
   className?: string;

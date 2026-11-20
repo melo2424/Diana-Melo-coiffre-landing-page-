@@ -1,10 +1,8 @@
-import { byId } from "@/data/images";
-import { site } from "@/data/site";
 import { agenda } from "@/lib/agenda/config";
-import { Picture } from "@/components/ui/Picture";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitReveal } from "@/components/motion/SplitReveal";
 import { Booking } from "./Booking";
+import { LocationMap } from "./LocationMap";
 
 const steps = [
   "Eliges día y hora; queda en la agenda de Diana.",
@@ -36,24 +34,14 @@ export function Contact() {
               ))}
             </ol>
           </Reveal>
-          <Reveal order={3}>
-            <div className="mt-10 flex items-center gap-4">
-              <div className="size-16 shrink-0 overflow-hidden rounded-full ring-1 ring-gold/40 ring-offset-4 ring-offset-ink">
-                <Picture image={byId("shooting/shooting-03-2023-12-04-video-cover")} sizes="64px" objectPosition="50% 25%" />
-              </div>
-              <p className="text-small text-muted">
-                {site.city}. Solo con cita previa.
-                <br />
-                ¿Dudas? Escríbeme al WhatsApp del botón dorado.
-              </p>
-            </div>
-          </Reveal>
         </div>
 
         <Reveal order={2} className="min-w-0 lg:col-span-7">
           <Booking />
         </Reveal>
       </div>
+
+      <LocationMap />
     </section>
   );
 }

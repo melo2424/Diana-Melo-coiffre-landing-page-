@@ -4,6 +4,7 @@ import {
   AnimatePresence,
   motion,
   useReducedMotion,
+  useMotionValue,
   useScroll,
   useSpring,
   useTransform,
@@ -16,6 +17,9 @@ import { Picture } from "@/components/ui/Picture";
 import { Reveal } from "@/components/motion/Reveal";
 import { Cta } from "@/components/ui/Cta";
 import { Lightbox, familyLabel } from "./Lightbox";
+import { tryTone } from "@/lib/store";
+import { track } from "@/lib/track";
+import { toneSlug } from "@/lib/tone-slug";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -125,6 +129,7 @@ export function ColorLab() {
   const toggle = (t: Tone) => {
     const next = picked.includes(t) ? picked.filter((x) => x !== t) : [...picked, t].slice(-MAX);
     setPicked(next);
+    if (!picked.includes(t)) track("Tono elegido", { tono: t });
     const last = next[next.length - 1];
     if (last) {
       const want = RING.indexOf(last) * STEP;
@@ -145,6 +150,13 @@ export function ColorLab() {
     ];
   }, [picked, near]);
   const mix = mixOf(picked);
+
+  // Gota de color que sigue al cursor sobre la rueda.
+  const [dropOn, setDropOn] = useState(false);
+  const dropX = useMotionValue(0);
+  const dropY = useMotionValue(0);
+  const dropSX = useSpring(dropX, { stiffness: 180, damping: 22 });
+  const dropSY = useSpring(dropY, { stiffness: 180, damping: 22 });
 
   const needle = useSpring(angle, { stiffness: 70, damping: 16 });
   useEffect(() => {
@@ -170,7 +182,28 @@ export function ColorLab() {
       <div className="grid items-center gap-y-12 lg:grid-cols-12 lg:gap-x-5">
         {/* ---------------- el círculo ---------------- */}
         <Reveal order={1} className="lg:col-span-7">
-          <div className="relative mx-auto w-full max-w-[44rem] select-none overflow-hidden" style={{ aspectRatio: VB.ratio }}>
+          <div
+            className="relative mx-auto w-full max-w-[44rem] select-none overflow-hidden"
+            style={{ aspectRatio: VB.ratio }}
+            onPointerMove={(e) => {
+              if (e.pointerType !== "mouse") return;
+              const r = e.currentTarget.getBoundingClientRect();
+              dropX.set(e.clientX - r.left);
+              dropY.set(e.clientY - r.top);
+            }}
+            onPointerEnter={(e) => e.pointerType === "mouse" && setDropOn(true)}
+            onPointerLeave={() => setDropOn(false)}
+          >
+            {/* la gota: sigue el cursor y se tiñe del tono bajo el puntero (o de tu mezcla) */}
+            {!reduce ? (
+              <motion.div
+                aria-hidden
+                className="pointer-events-none absolute left-0 top-0 z-0 size-40 -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
+                style={{ x: dropSX, y: dropSY }}
+                animate={{ opacity: dropOn ? 0.55 : 0, backgroundColor: hover ? tones[hover] : picked.length ? mix.hex : "#c6a15b" }}
+                transition={{ duration: 0.5 }}
+              />
+            ) : null}
             {/* corona de marcas: gira con el scroll */}
             <motion.svg
               aria-hidden
@@ -323,6 +356,14 @@ export function ColorLab() {
               </button>
             ) : null}
           </div>
+          {picked.length ? (
+            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-small">
+              <button type="button" onClick={() => tryTone(picked.join("+"))} className="text-gold-light underline-offset-4 hover:underline">
+                Pruébatelo en tu foto →
+              </button>
+              <ShareTone tone={picked[picked.length - 1]} />
+            </div>
+          ) : null}
         </Reveal>
       </div>
 
@@ -591,5 +632,30 @@ function Card({ item, order, onOpen }: { item: Item; order: number; onOpen: (el:
         </motion.div>
       </button>
     </motion.li>
+  );
+}
+
+/* ------------------------------------------------------------------ compartir */
+
+function ShareTone({ tone }: { tone: string }) {
+  const [copied, setCopied] = useState(false);
+  const share = async () => {
+    const url = `${window.location.origin}/tono/${toneSlug(tone)}`;
+    track("Compartir tono", { tono: tone });
+    try {
+      if (navigator.share) await navigator.share({ title: `Mi tono ${tone}`, url });
+      else {
+        await navigator.clipboard.writeText(url);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      }
+    } catch {
+      /* la clienta canceló */
+    }
+  };
+  return (
+    <button type="button" onClick={share} className="text-muted underline-offset-4 hover:text-gold-light hover:underline">
+      {copied ? "¡Enlace copiado!" : `Compartir mi tono ${tone}`}
+    </button>
   );
 }

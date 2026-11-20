@@ -5,7 +5,7 @@
 Web de presentación y agendamiento de **Diana Melo** (Instagram [@dianamelocolorlab](https://www.instagram.com/dianamelocolorlab/)), colorista y estilista en Colombia. Especialidad: **colorimetría** (balayage, rubios, decoloración, corrección de color), además de corte, peinado y maquillaje de novia.
 Público: mujeres en Colombia que buscan una colorista experta y de confianza. Sitio en **español de Colombia** (tuteo).
 
-**Agenda de diagnóstico** (#agendar): reserva conectada al Google Calendar de Diana + confirmación por WhatsApp. Configuración y credenciales en **[AGENDA.md](AGENDA.md)**.
+**Agenda e integraciones**: agenda de diagnóstico conectada a Google Calendar (fotos a Drive, lista de espera, recordatorios), panel privado en `/diana`, quiz, probador de color (MediaPipe), antes/después, reseñas de Google, guías `/cuidado/*` y páginas `/tono/*`. Todo lo externo es opcional y está en **[AGENDA.md](AGENDA.md)**.
 
 **No es una tienda.** Los productos Olaplex se muestran como vitrina: sin precios, carrito ni compra. El agendamiento sale por WhatsApp (o Instagram mientras no haya número).
 
@@ -34,7 +34,10 @@ dianamelocolorlab/            fotos ORIGINALES (no se sirven)
 public/images/{trabajos,shooting,olaplex}/   WebP generadas: <slug>-<ancho>.webp
 scripts/optimize-images.mjs   originales → WebP (640/1080/1600, q78) + manifiesto
 src/
-  app/            layout.tsx (fuentes, header, footer), page.tsx (secciones), globals.css (tokens)
+  app/            layout.tsx (html, fuentes, SEO, JSON-LD), globals.css (tokens)
+    (sitio)/      layout con header/footer; page.tsx (secciones), cuidado/[familia], tono/[tono]
+    diana/        panel privado (sin header del sitio)
+    api/          agenda, agenda/espera, cron/recordatorios, diana
   components/
     layout/       Header (fijo, menú móvil), Footer
     ui/           Button, SectionHeading, Exhibit (card), ToneTag (badge), Picture
@@ -64,7 +67,9 @@ Al añadir una foto: déjala en `dianamelocolorlab/<grupo>/`, ejecuta `npm run i
 
 ## Pendiente de confirmar con Diana
 
-- Credenciales de Google Calendar (cuenta de servicio, ver AGENDA.md), horario y duración del diagnóstico, y política de tratamiento de datos.
+- Cuentas e integraciones (Google, Resend, WhatsApp Business, Places, Plausible): ver AGENDA.md.
+- Horario y duración del diagnóstico, dirección del estudio, textos de guías de cuidado y reglas del quiz.
+- Fotos de antes y después (con permiso de las clientas) y política de tratamiento de datos.
 
 - Número de WhatsApp, dirección, ciudad (las fotos de eventos apuntan a Villavicencio, Meta) y horario → `src/data/site.ts`.
 - Nombre de marca: se pidió «Coiffé»; en las batas se lee «Coiffure». Confirmar la grafía.

@@ -9,14 +9,23 @@ export const site = {
   whatsapp: { number: "573152593815" },
   // POR CONFIRMAR: ciudad deducida de las fotos de eventos (Hotel Estelar Villavicencio, Cluster Moda Orinoquía).
   city: "Villavicencio, Meta",
+  // POR CONFIRMAR: dirección exacta del estudio. Vacía = la tarjeta de ubicación busca por ciudad.
+  address: "",
+  /**
+   * Cómo aparece el estudio en Google Maps (ficha «Diana Melo Coiffure», Villavicencio).
+   * El mapa y «Cómo llegar» buscan por este nombre. POR CONFIRMAR que la ficha sea la de Diana.
+   */
+  mapsPlace: "Diana Melo Coiffure, Villavicencio, Meta",
+  /** Dominio público (para enlaces en correos, Open Graph y sitemap). Se define con NEXT_PUBLIC_SITE_URL. */
+  url: (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, ""),
 } as const;
 
 export const nav = [
-  { label: "Trabajos", href: "#trabajos" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Diana", href: "#diana" },
-  { label: "Tu cita", href: "#tu-cita" },
-  { label: "Olaplex", href: "#olaplex" },
+  { label: "Trabajos", href: "/#trabajos" },
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Diana", href: "/#diana" },
+  { label: "Tu cita", href: "/#tu-cita" },
+  { label: "Olaplex", href: "/#olaplex" },
 ] as const;
 
 const defaultMessage = "Hola Diana, quiero agendar una cita.";

@@ -8,10 +8,15 @@ import { addToCalendarLink, confirmationMessage, formatDay, formatTime, period, 
 import type { Day } from "@/lib/agenda/slots";
 import { Cta, CtaButton } from "@/components/ui/Cta";
 import { WhatsAppIcon } from "@/components/layout/WhatsAppButton";
+import { careFor, serviceFamily } from "@/data/care";
+import { useShared } from "@/lib/store";
+import { track } from "@/lib/track";
+import { Waitlist } from "./Waitlist";
+import { PhotoPicker, type Photos } from "./PhotoPicker";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 type Step = 0 | 1 | 2;
-type Errors = Partial<Record<"name" | "phone" | "email" | "service" | "hair" | "consent" | "start", string>>;
+type Errors = Partial<Record<"name" | "phone" | "email" | "service" | "hair" | "consent" | "start" | "photos", string>>;
 
 const weekday = new Intl.DateTimeFormat("es-CO", { timeZone: agenda.timeZone, weekday: "short" });
 const dayNum = new Intl.DateTimeFormat("es-CO", { timeZone: agenda.timeZone, day: "numeric" });
@@ -34,15 +39,32 @@ export function Booking() {
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
-  const [result, setResult] = useState<{ calendar: boolean; end: string } | null>(null);
+  const [result, setResult] = useState<{ calendar: boolean; end: string; photos?: boolean } | null>(null);
   const [failMsg, setFailMsg] = useState("");
+  const [photosOn, setPhotosOn] = useState(false);
+  const [photos, setPhotos] = useState<Photos>({});
+  const [waitlist, setWaitlist] = useState(false);
+
+  // El quiz llena la agenda: se aplica una vez por envío (nonce), sin efectos.
+  const prefill = useShared((s) => s.prefill);
+  const [seen, setSeen] = useState(0);
+  if (prefill && prefill.nonce !== seen) {
+    setSeen(prefill.nonce);
+    setForm((f) => ({
+      ...f,
+      service: prefill.service ?? f.service,
+      hair: prefill.hair ?? f.hair,
+      notes: prefill.notes ?? f.notes,
+    }));
+  }
 
   // Solo actualiza el estado cuando llega la respuesta (nada síncrono dentro del efecto).
   const fetchAgenda = () => {
     fetch("/api/agenda", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((j: { mode: "calendar" | "solicitud"; days: Day[] }) => {
+      .then((j: { mode: "calendar" | "solicitud"; photos: boolean; days: Day[] }) => {
         setMode(j.mode);
+        setPhotosOn(j.photos);
         setDays(j.days);
         setDate((d) => d ?? j.days.find((x) => x.slots.length)?.date ?? null);
       })
@@ -78,15 +100,17 @@ export function Booking() {
     setSending(true);
     setFailMsg("");
     try {
-      const res = await fetch("/api/agenda", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, consent, empresa: form.empresa }),
-      });
+      const fd = new FormData();
+      Object.entries({ ...data, empresa: form.empresa }).forEach(([k, v]) => v && fd.append(k, v));
+      fd.append("consent", String(consent));
+      if (photos.actual) fd.append("foto_actual", photos.actual);
+      if (photos.referencia) fd.append("foto_referencia", photos.referencia);
+      const res = await fetch("/api/agenda", { method: "POST", body: fd });
       const j = await res.json();
       if (res.ok) {
-        setResult({ calendar: j.calendar, end: j.end });
+        setResult({ calendar: j.calendar, end: j.end, photos: !!j.photos });
         setStep(2);
+        track("Reserva", { modo: j.calendar ? "calendar" : "solicitud", servicio: data.service, fotos: !!j.photos });
       } else if (j.errors) {
         setErrors(j.errors);
         if (j.errors.start) {
@@ -155,6 +179,7 @@ export function Booking() {
                           onClick={() => {
                             setDate(d.date);
                             setStart(null);
+                            track("Agenda día");
                           }}
                           className={`relative flex h-[5.5rem] w-[4.25rem] flex-col items-center justify-center rounded-2xl transition-colors duration-300 disabled:opacity-30 ${
                             active ? "text-ink" : "bg-ink text-text ring-1 ring-graphite hover:ring-gold/50"
@@ -217,13 +242,21 @@ export function Booking() {
                 </AnimatePresence>
 
                 <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-                  <a href={bookingLink()} target="_blank" rel="noopener" className="text-small text-muted underline-offset-4 hover:text-gold-light hover:underline">
-                    ¿Ninguna hora te sirve? Escríbeme
-                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setWaitlist((v) => !v)}
+                    aria-expanded={waitlist}
+                    className="text-small text-muted underline-offset-4 hover:text-gold-light hover:underline"
+                  >
+                    ¿Ninguna hora te sirve? Avísame si se libera un turno
+                  </button>
                   <CtaButton disabled={!start} onClick={() => setStep(1)}>
                     Continuar
                   </CtaButton>
                 </div>
+                <AnimatePresence initial={false}>
+                  {waitlist ? <Waitlist key="espera" onClose={() => setWaitlist(false)} /> : null}
+                </AnimatePresence>
               </>
             )}
           </motion.div>
@@ -277,6 +310,12 @@ export function Booking() {
 
             <Chips label="¿Qué te quieres hacer?" options={services} value={form.service} onChange={set("service")} error={errors.service} />
             <Chips label="¿Cómo está tu cabello hoy?" options={hairStates} value={form.hair} onChange={set("hair")} error={errors.hair} />
+
+            {photosOn ? (
+              <PhotoPicker value={photos} onChange={setPhotos} error={errors.photos} />
+            ) : (
+              <p className="mt-6 text-small text-muted">¿Tienes fotos de tu cabello o de un color que te guste? Al final se las mandas a Diana por WhatsApp.</p>
+            )}
 
             <Field label="Cuéntame más (opcional)" className="mt-6">
               <textarea
@@ -376,7 +415,12 @@ export function Booking() {
               )}
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Cta href={bookingLink(confirmationMessage(data, result.calendar))} size="lg" icon={<WhatsAppIcon />}>
+              <Cta
+                href={bookingLink(confirmationMessage(data, result.calendar))}
+                size="lg"
+                icon={<WhatsAppIcon />}
+                onClick={() => track("WhatsApp confirmar", { modo: result.calendar ? "calendar" : "solicitud" })}
+              >
                 {result.calendar ? "Confirmar por WhatsApp" : "Enviar por WhatsApp"}
               </Cta>
               {result.calendar ? (
@@ -385,6 +429,18 @@ export function Booking() {
                 </Cta>
               ) : null}
             </div>
+            {(() => {
+              const c = careFor(serviceFamily[data.service] ?? "");
+              return c ? (
+                <p className="mt-8 text-small text-muted">
+                  Mientras llega el día:{" "}
+                  <a href={`/cuidado/${c.family}`} className="text-gold-light underline underline-offset-4">
+                    {c.title.toLowerCase()}
+                  </a>
+                  .
+                </p>
+              ) : null;
+            })()}
           </motion.div>
         ) : null}
       </AnimatePresence>

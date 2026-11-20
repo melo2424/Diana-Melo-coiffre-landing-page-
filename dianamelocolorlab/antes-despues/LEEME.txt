@@ -1,0 +1,10 @@
+Fotos de ANTES y DESPUÉS (originales; no se sirven tal cual).
+
+1. Guarda cada pareja con el mismo nombre y el sufijo -antes / -despues:
+     balayage-laura-antes.jpg
+     balayage-laura-despues.jpg
+   Mismo encuadre y luz parecida en las dos, idealmente.
+2. Ejecuta:  npm run images
+3. Escribe el tono y la descripción en src/data/before-after.ts (clave = nombre sin sufijo, en minúsculas).
+
+Pide permiso a la clienta antes de publicar sus fotos.

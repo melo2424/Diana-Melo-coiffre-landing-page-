@@ -64,3 +64,18 @@ export function addToCalendarLink(b: Booking, end: string, location: string) {
   });
   return `https://calendar.google.com/calendar/render?${q}`;
 }
+
+/** Recordatorio de retoque para el calendario de la clienta, `weeks` semanas después de `fromIso`. */
+export function retouchLink(fromIso: string, weeks: number, what: string, bookingUrl: string) {
+  const t = Date.parse(fromIso) + weeks * 7 * 24 * 3600_000;
+  const day = new Date(t + -5 * 3600_000).toISOString().slice(0, 10).replace(/-/g, "");
+  const next = new Date(t + 19 * 3600_000).toISOString().slice(0, 10).replace(/-/g, ""); // día siguiente (evento de día completo)
+  const q = new URLSearchParams({
+    action: "TEMPLATE",
+    text: `Retoque con Diana Melo: ${what}`,
+    dates: `${day}/${next}`,
+    details: `Ya van ${weeks} semanas desde tu color. Agenda tu retoque: ${bookingUrl}`,
+    ctz: agenda.timeZone,
+  });
+  return `https://calendar.google.com/calendar/render?${q}`;
+}

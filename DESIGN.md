@@ -34,7 +34,8 @@ Sustituyen lo que contradigan en §5, §6, §8 y §10.
 - **Sombras**: solo en lo que flota (botón al pasar, botón de WhatsApp, polaroids del álbum).
 - **Trabajos**: se retiró el muro «Todo el portafolio, por familia». La rueda de tonos es la única galería: sin tono elegido muestra todos los trabajos (8 + «ver los restantes»); con tonos, agrupa «En tu mezcla» y «Tonos vecinos» en una cuadrícula ordenada.
 - **Diana**: en primera persona («Hola, soy Diana Melo»), álbum de polaroids arrastrables con sus fotos de eventos, carta firmada y tres compromisos con iconos redondos. El texto está escrito en su voz: **POR CONFIRMAR con Diana**.
-- **Footer**: negro, logotipo animado en blanco y botón de WhatsApp.
+- **Footer**: negro, logotipo animado en blanco, botón de WhatsApp y enlaces a las guías de cuidado.
+- **Nuevas secciones (20-11-2026)**: Probador (`TryOn`, tras Trabajos), Antes y después (`BeforeAfter`, solo con fotos reales), Reseñas (`Reviews`, solo con perfil de Google), Mini diagnóstico (`Quiz`, antes de la agenda) y tarjeta de visita marfil en la agenda. El comparador `Compare` (línea dorada con tirador redondo) es el mismo en el probador y en antes y después. Páginas nuevas: `/cuidado/<familia>`, `/tono/<tono>` (con imagen OG) y el panel `/diana`.
 
 ---
 
