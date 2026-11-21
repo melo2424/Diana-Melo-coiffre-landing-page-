@@ -44,3 +44,7 @@ next-env.d.ts
 # design tooling
 /.taste-skill/
 /.playwright-mcp/
+
+.vercel
+.env*
+!.env.example

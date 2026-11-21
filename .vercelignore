@@ -1,0 +1,7 @@
+# Lo que no se sube a Vercel al desplegar desde la terminal (la web usa public/images, no los originales)
+dianamelocolorlab
+.playwright-mcp
+.taste-skill
+.next
+node_modules
+.env*.local
