@@ -17,7 +17,11 @@ export const site = {
    */
   mapsPlace: "Diana Melo Coiffure, Villavicencio, Meta",
   /** Dominio público (para enlaces en correos, Open Graph y sitemap). Se define con NEXT_PUBLIC_SITE_URL. */
-  url: (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, ""),
+  // Sin NEXT_PUBLIC_SITE_URL, en Vercel se usa el dominio de producción que asigna Vercel.
+  url: (
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000")
+  ).replace(/\/$/, ""),
 } as const;
 
 export const nav = [
